@@ -11,6 +11,8 @@
 								% use single spacing for tables, etc.
 \usepackage{calc}
 \usepackage{newcent}
+\usepackage{microtype}
+\usepackage[pdftitle={Scott Sherrill-Mix thesis},pdfauthor={Scott Sherrill-Mix},hidelinks]{hyperref}  %[[update with title]]
 
 % For the signature boxes and much better looking tables
 \usepackage{array} % Also for better arrays (eg matrices) in maths
@@ -19,8 +21,8 @@
 
 %number within chapters
 \makeatletter
-\@addtoreset{table}{section}
-\@addtoreset{figure}{section}
+\@addtoreset{table}{chapter}
+\@addtoreset{figure}{chapter}
 %\renewcommand\thetable{\thesection.\arabic{table}}
 %\renewcommand\thefigure{\thesection.\arabic{table}}
 \makeatother
@@ -73,8 +75,8 @@
 % Commands (more further down, at preliminary, main and appendix) to change the formatting of chapter headings
 \usepackage[compact]{titlesec}
 \renewcommand{\beforetitleunit}{0 pt}
-\titleformat{\section}[hang]{\large\bfseries}{\thesection.}{6 pt}{}
-\titleformat{\subsection}[hang]{\normalsize\bfseries}{\thesubsection.}{6 pt}{}
+\titleformat{\section}[hang]{\large\bfseries}{\thesection}{6 pt}{}
+\titleformat{\subsection}[hang]{\normalsize\bfseries}{\thesubsection}{6 pt}{}
 \titlespacing*{\section}{0pt}{0pt}{0pt}
 \titlespacing*{\subsection}{0pt}{0pt}{0pt}
 
@@ -105,7 +107,10 @@
 \newcommand{\threePrime}{3\ensuremath{'}}
 \newcommand{\fivePrime}{5\ensuremath{'}}
 \newcommand{\degree}{\ensuremath{^\circ}}
-\newcommand*{\approximately}{\mathord{\sim}}
+\newcommand{\uM}{\ensuremath{\mu}M}
+\newcommand{\uL}{\ensuremath{\mu}L}
+\newcommand{\ug}{\ensuremath{\mu}g}
+\newcommand{\approximately}{\mathord{\sim}}
 
 
 
@@ -125,9 +130,8 @@
 %\renewcommand{\thefigure}{\arabic{figure}}
 
 % Defining variables to be used throughout the document for personalization
-\def\mytitle{DISSERTATION TITLE} % Make sure this is in all caps
-\def\myauthor{Scott Sherrill-Mix}
-\def\myauthorfull{Author Full Legal Name}
+\def\mytitle{DISSERTATION TITLE} % Make sure this is in all caps 
+\def\myauthor{Scott Sherrill-Mix} \def\myauthorfull{Scott Allen Sherrill-Mix}
 \def\mysupervisorname{Frederic D. Bushman, Ph.D.}
 \def\mysupervisortitle{Professor, Microbiology}
 \newlength{\superlen}   % a "scratch" length
@@ -326,6 +330,8 @@ No more than 350 words. It is normally a single paragraph, consists of four part
 \subfile{latency/latency}
 
 \subfile{lamp/lamp}
+
+\subfile{pacBio/pacBio}
 
 \end{mainf}
 
