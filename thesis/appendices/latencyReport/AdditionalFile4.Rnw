@@ -1,0 +1,325 @@
+\documentclass[../../sherrill-Mix_thesis.tex]{subfiles}
+\begin{document}
+\graphicspath{{./}{appendices/latencyReport/}}
+\chapter{SOME TITLE HERE}
+
+<<echo=FALSE>>=
+  options(width=60)
+  listing <- function(x, options) {
+    paste("\\begin{lstlisting}[basicstyle=\\ttfamily,breaklines=true]\n",
+      x, "\\end{lstlisting}\n", sep = "")
+  }
+  knit_hooks$set(source=listing, output=listing)
+@
+
+\section{Supplementary data}
+Additional File 2 is a gzipped csv file that includes a row for each uniquely mapped provirus and its surrounding genomic annotations. The csv file should have 12436 rows (excluding header) with 6252 expressed and 6184 latent proviruses.
+<<readData,highlight=FALSE,tidy=TRUE>>=
+integrationData<-read.csv('AdditionalFile2.csv.gz',stringsAsFactors=FALSE)
+nrow(integrationData)
+table(integrationData$isLatent)
+@ 
+
+
+\section{Lasso regression}
+The lasso regressions take a while to run so I've turned down the number of cross validations here (set \texttt{eval=FALSE} below to completely skip this step).  Leave one out and 480-fold cross validation were used in the paper but processing may take a few days without parallel processing. Lasso regression requires the R glmnet package. 
+\begin{center}
+<<dataPrep,highlight=FALSE,tidy=TRUE>>=
+notFitColumns<-c('id', 'chr', 'pos', 'strand', 'sample', 'isLatent')
+
+samples<-unique(as.character(integrationData$sample))
+sampleMatrix<-do.call(cbind, lapply(samples, function(x)integrationData$sample==x))
+colnames(sampleMatrix)<-gsub(' ', '_', samples)
+
+interact<-function(predMatrix, columns, addNames=NULL){
+	out<-do.call(cbind, lapply(1:ncol(columns), function(x)predMatrix*columns[, x]))
+	if(!is.null(addNames)){
+		if(length(addNames)!=ncol(columns)){
+            stop(simpleError('Names not same length as columns'))
+        }
+		colnames(out)<-sprintf("%s_%s", rep(addNames,
+                each=ncol(predMatrix)), rep(colnames(predMatrix), length(addNames)))
+	}
+	return(out)
+}
+
+fitData<-as.matrix(integrationData[, !colnames(integrationData) %in% notFitColumns])
+fitData2<-as.matrix(cbind(interact(fitData, sampleMatrix,
+            colnames(sampleMatrix)), fitData, sampleMatrix))
+@
+
+<<lassoRegression, eval=TRUE,highlight=FALSE,tidy=TRUE>>=
+library(glmnet)
+penalties<-rep(1, ncol(fitData2))
+penalties[ncol(fitData2)-(ncol(sampleMatrix):1)+1]<-0
+lassoFit<-cv.glmnet(fitData2, integrationData$isLatent, family='binomial',
+    type.measure='class', nfolds=3, penalty.factor=penalties)
+seperateFits<-lapply(samples, function(x)cv.glmnet(fitData[integrationData$sample==x, ],
+        integrationData$isLatent[integrationData$sample==x], family='binomial',
+        type.measure='class', nfolds=3))
+names(seperateFits)<-samples
+@
+<<lassoPlot,include=FALSE,highlight=FALSE,tidy=TRUE>>=
+	if(exists('lassoFit')){
+		par(mfrow=c(2,3))
+		plot(lassoFit,main='All samples')
+		dummy<-sapply(names(seperateFits),
+			function(x)plot(seperateFits[[x]],main=x)
+		)
+	}else{
+		plot(1,1,main='Lasso regression not run.')
+	}
+@
+<<lassoPlotShow,fig.keep='high',echo=FALSE>>=
+<<lassoPlot>>
+@
+
+
+\end{center}
+
+
+
+\section{Correlation}
+We looked for correlation between the genomic variables and expression status of the proviruses.
+<<correlation,highlight=FALSE,tidy=TRUE>>=
+corMat<-apply(fitData, 2, function(x)sapply(samples, function(y){
+        selector<-integrationData$sample==y
+        if(sd(x[selector])==0)return(0)
+        isLatent<-integrationData[selector, 'isLatent']
+        cor(as.numeric(isLatent), x[selector], method='spearman')
+}))
+quantile(corMat, seq(0, 1, .1))
+@
+
+If we looked for genomic variables consistently correlated or anti-correlated with proviral expression status with an FDR q-value less than 0.01, no variable was significantly correlated in more than 3 samples.
+<<corPValues,highlight=FALSE,tidy=TRUE>>=
+pMat<-apply(fitData, 2, function(x)sapply(samples, function(y){
+        selector<-integrationData$sample==y
+        if(sd(x[selector])==0)return(NA)
+        isLatent<-integrationData[selector, 'isLatent']
+        cor.test(as.numeric(isLatent), x[selector],
+            method='spearman', exact=FALSE)$p.value
+}))
+adjustPMat<-pMat
+adjustPMat[, ]<-p.adjust(pMat, 'fdr')
+downPMat<-upPMat<-adjustPMat
+downPMat[corMat>0]<-1
+upPMat[corMat<0]<-1
+table(apply(upPMat<.01&!is.na(upPMat), 2, sum))
+table(apply(downPMat<.01&!is.na(downPMat), 2, sum))
+@
+
+\section{RNA expression}
+We fit a logistic regression to a polynomial of log RNA-Seq reads within 5000 bases from Jurkat cells for the Jurkat sample and T cells for the rest.
+<<rnaExpression,highlight=FALSE,tidy=TRUE>>=
+rna<-ifelse(integrationData$sample=='Jurkat', 
+    integrationData$log_jurkatRNA, integrationData$rna_5000)
+rna2<-rna^2
+rna3<-rna^3                           # 
+rna4<-rna^4
+glmData<-data.frame(isLatent=integrationData$isLatent, sample=integrationData$sample,
+    rna, rna2, rna3, rna4)
+glmMod<-glm(isLatent~sample*rna+sample*rna2+sample*rna3+sample*rna4,
+    data=glmData, family='binomial')
+summary(glmMod)
+@
+
+\section{Strand orientation}
+We used a Fisher's exact test to check if silent/inducible proviruses were enriched when integrated in the same strand orientation as cellular genes. 
+<<strand,highlight=FALSE,tidy=TRUE>>=
+selector<-integrationData$inGene==1
+strandTable<-with(integrationData[selector, ],
+    table(ifelse(isLatent, 'Silent/Inducible', 'Active'),
+    ifelse(inGeneSameStrand==1, 'Same', 'Diff'), sample))
+apply(strandTable, 3, fisher.test)
+@
+
+\section{Acetylation}
+To reduce correlation between acetylation marks, we generated the first ten principal components of the acetylation data and ran a logistic regression against them. We compared the cross validated performance of this regression with a base model only including which dataset the integration site came from. The cross-validation here has been reduced for efficiency but 480-fold cross-validation was used in the paper.
+<<acetylation,highlight=FALSE,tidy=TRUE>>=
+acetyl<-integrationData[, !grepl('logDist', colnames(integrationData)) &
+	grepl('ac', colnames(integrationData))]
+acetylPCA<-princomp(acetyl)
+cumsum(acetylPCA$sdev[1:10]^2/sum(acetylPCA$sdev^2))
+
+cv.glm<-function(model, K=nrow(thisData), subsets=NULL){
+    modelCall<-model$call
+    thisData<-eval(modelCall$data)
+    n<-nrow(thisData)
+    if(is.null(subsets))subsets<-split(1:n, sample(rep(1:K, length.out=n)))
+    preds<-lapply(subsets, function(outGroup){
+        subsetData<-thisData[-outGroup, , drop=FALSE]
+        predData<-thisData[outGroup, , drop=FALSE]
+        thisModel<-modelCall
+        thisModel$data<-subsetData
+        return(predict(eval(thisModel), predData))
+    })
+    pred<-unlist(preds)[order(unlist(subsets))]
+    subsetId<-rep(1:K, sapply(subsets, length))[order(unlist(subsets))]
+    return(data.frame(pred, subsetId))
+}
+
+inData<-data.frame('isLatent'=integrationData$isLatent,
+	'sample'=as.factor(integrationData$sample), acetylPCA$score[, 1:10])
+modelPreds<-cv.glm(glm(isLatent~sample+Comp.1+Comp.2+Comp.3+Comp.4+Comp.5+
+		Comp.6+Comp.7+Comp.8+Comp.9+Comp.10, family='binomial', data=inData), K=5)
+basePreds<-cv.glm(glm(isLatent~sample, family='binomial', data=inData), 
+	subsets=split(1:nrow(inData), modelPreds$subsetId), K=5)
+modelCorrect<-sum((modelPreds$pred>0)==integrationData$isLatent)
+baseCorrect<-sum((basePreds$pred>0)==integrationData$isLatent)
+prop.test(c(baseCorrect, modelCorrect), rep(nrow(integrationData), 2))
+@
+
+\section{Gene deserts}
+We used Fisher's exact test to look for an association between integration outside a gene and proviral expression status.
+<<inGene,highlight=FALSE,tidy=TRUE>>=
+geneTable<-table(integrationData$isLatent,
+    integrationData$inGene, integrationData$sample)
+apply(geneTable, 3, fisher.test)
+@
+
+We used a two-sample t-test to investigate whether there was a significant difference in distance to the nearest gene between expressed and silent/inducible proviruses integrated outside genes.
+<<geneDistance,highlight=FALSE,tidy=TRUE>>=
+geneDistData<-integrationData[!integrationData$inGene,
+    c('isLatent', 'logDist_nearest', 'sample')]
+by(geneDistData, geneDistData$sample, function(x)t.test(logDist_nearest~isLatent,
+        data=x))
+@
+
+To check for a relationship between silent/inducible status and distance to CpG islands, we used a two sample t-test on the logged distance and saw a significant difference between silent/inducible and expressed proviruses (before accounting for a correlation between being near CpG islands and in genes)
+<<cpgIslands,highlight=FALSE,tidy=TRUE>>=
+t.test(integrationData$logDist_cpg~integrationData$isLatent)
+sapply(unique(integrationData$sample),
+	function(x)with(integrationData[integrationData$sample==x,],
+		p.adjust(
+			t.test(logDist_cpg~isLatent)$p.value
+		,method='bonferroni',n=5))
+)
+@
+
+Many CpG islands are found near genes. To account for this relationship, we used an ANOVA test including whether the integration site was inside a gene prior to including CpG islands. After including integration inside genes, CpG islands were not significantly associated with silent/inducible status of the proviruses with all samples grouped or individually after Bonferonni correction for multiple comparisons.
+<<cpgIslandsAfterGene,highlight=FALSE,tidy=TRUE>>=
+anova(with(integrationData,
+	glm(isLatent~I(logDist_nearest==0)+logDist_cpg,family='binomial'))
+	,test='Chisq')
+sapply(unique(integrationData$sample),function(x){
+	p.adjust(
+		anova(with(integrationData[integrationData$sample==x,],
+			glm(isLatent~I(logDist_nearest==0)+logDist_cpg,family='binomial'))
+		,test='Chisq')['logDist_cpg','Pr(>Chi)']
+	,method='bonferroni',n=5)
+})
+@
+
+
+\section{Alphoid repeats}
+When analyzing repetitive elements, we treated each read as an independent observation and included reads with multiple alignments to the genome. Additional File 3 is a gzipped csv file containing a row for each read with multiple alignments and one row for each dereplicated integration site with a single alignment with the count variable indicating the number of reads dereplicated to that integration site. There should be 26,190 rows (excluding header) with 14,494 rows of expressed provirus and 11,696 rows of silent/inducible provirus.
+<<readRepeats,highlight=FALSE,tidy=TRUE>>=
+repeats<-read.csv('AdditionalFile3.csv.gz', check.names=FALSE, stringsAsFactors=FALSE)
+nrow(repeats)
+summary(repeats$isLatent)
+notRepeatColumns<-c('id', 'isLatent', 'sample', 'count')
+@
+
+To analyze whether there was an association between proviral expression status and integration within alphoid repeats, we used Fisher's exact test with a Bonferroni correction for five samples. For comparison, we looked at the association between proviral expression and the other repeats in the RepeatMasker database. We did not Bonferroni correct for the multiple repeat types so that the repeats could be compared with the analysis of alphoid repeats (for which we had an \text{a priori} hypothesis for an association with latency).
+<<repeatAnalysis,highlight=FALSE,tidy=TRUE>>=
+dummyX<-rep(c(TRUE, FALSE), 2)
+dummyY<-rep(c(TRUE, FALSE), each=2)
+repeatData<-repeats[, !colnames(repeats) %in% notRepeatColumns]
+repeatData<-repeatData[, apply(repeatData, 2, sum)>0]
+testRepeats<-function(x, repeats){
+    sapply(samples, function(thisSample, repeats){
+        selector<-repeats$sample==thisSample
+        repLatent<-rep(repeats$isLatent[selector], repeats$count[selector])
+        repRepeat<-rep(x[selector], repeats$count[selector])
+        fisher.test(table(c(dummyX, repLatent), c(dummyY, repRepeat))-1)$p.value
+    }, repeats)
+}
+repeatPs<-apply(repeatData, 2,testRepeats,repeats[, notRepeatColumns])
+table(apply(repeatPs*5<.05, 2, sum))
+which(apply(repeatPs*5<.05, 2, sum)>=3)
+p.adjust(repeatPs[, 'ALR/Alpha'], 'bonferroni')
+@
+
+\section{Neighbors}
+We looked at all pairs of viruses on the same chromosome separated by no more than a given distance, e.g. 100 bases, either with all samples pooled or split between within sample pairs or between sample pairs.
+<<neighbors,highlight=FALSE,tidy=TRUE>>=
+allNeighbors<-data.frame('id1'=0, 'id2'=0)[0, ]
+ids<-1:nrow(integrationData)
+for(chr in unique(integrationData$chr)){
+	chrSelector<-integrationData$chr==chr
+	neighborPairs<-data.frame('id1'=rep(ids[chrSelector], sum(chrSelector)),
+        'id2'=rep(ids[chrSelector], each=sum(chrSelector)))
+	neighborPairs<-neighborPairs[neighborPairs$id1<neighborPairs$id2, ]
+	allNeighbors<-rbind(allNeighbors, neighborPairs)
+}
+allNeighbors$dist<-abs(integrationData$pos[allNeighbors$id1]-
+    integrationData$pos[allNeighbors$id2])
+allNeighbors$latent1<-integrationData$isLatent[allNeighbors$id1]
+allNeighbors$latent2<-integrationData$isLatent[allNeighbors$id2]
+allNeighbors$sample1<-integrationData$sample[allNeighbors$id1]
+allNeighbors$sample2<-integrationData$sample[allNeighbors$id2]
+allNeighbors<-allNeighbors[allNeighbors$dist<=1e6, ]
+@
+
+The expected number of matching pairs was calculated as \(\sum_{j \in \text{samples}} n_{j, d}(\theta_{j, d}\theta_{\neg j, d}+(1-\theta_{j, d})(1-\theta_{\neg j, d}))\) for between sample, \(\sum_{j \in \text{samples}} n_{j, d}(\theta_{j, d}^2+(1-\theta_{j, d})^2)\) for within sample and \(n_{d}(\theta_{d}^2+(1-\theta_{d})^2)\) for all pairs, where $n_{j, d}$ is the number of pairs of proviruses separated by no more than $d$ base pairs where the first provirus is from sample $j$, $\theta_{j, d}$ is the proportion of silent/inducible proviruses in sample $j$ appearing in at least one pair of proviruses separated by less than $d$ base pairs and $\neg j$ means all samples except sample $j$.
+<<expectedMatches,highlight=FALSE,tidy=TRUE>>=
+dists<-unique(round(10^seq(1, 6, 1)))
+pairings<-do.call(rbind, lapply(dists, function(x, allNeighbors){
+	inSelector<-allNeighbors$dist<=x&allNeighbors$sample1==allNeighbors$sample2
+	outSelector<-allNeighbors$dist<=x&allNeighbors$sample1!=allNeighbors$sample2
+	allSelector<-allNeighbors$dist<=x
+	out<-data.frame('dist'=x,
+        'observedIn'=sum(allNeighbors[inSelector, 'latent1']==
+            allNeighbors[inSelector, 'latent2']),
+        'observedOut'=sum(allNeighbors[outSelector, 'latent1']==
+            allNeighbors[outSelector, 'latent2']),
+        'observedAll'=sum(allNeighbors[allSelector, 'latent1']==
+            allNeighbors[allSelector, 'latent2']),
+        'totalIn'=sum(inSelector),
+        'totalOut'=sum(outSelector),
+        'totalAll'=sum(allSelector)
+    )
+	out$expectedIn<-sum(with(allNeighbors[inSelector, ], sapply(samples, function(x){
+			inLatent<-c(latent1[sample1==x], latent2[sample2==x])[
+                !duplicated(c(id1[sample1==x], id2[sample2==x]))]
+			if(length(inLatent)==0)return(0)
+			return(sum(sample1==x)*(mean(inLatent)^2+mean(!inLatent)^2))
+	})))
+	out$expectedOut<-sum(with(allNeighbors[outSelector, ], sapply(samples, function(x){
+			inLatent<-c(latent1[sample1==x], latent2[sample2==x])[
+                !duplicated(c(id1[sample1==x], id2[sample2==x]))]
+			outLatent<-c(latent1[sample1!=x], latent2[sample2!=x])[
+                !duplicated(c(id1[sample1!=x], id2[sample2!=x]))]
+			if(length(inLatent)==0)return(0)
+			return(sum(sample1==x)*(mean(inLatent)*mean(outLatent)
+                    +mean(!inLatent)*mean(!outLatent)))
+	})))
+	out$expectedAll<-sum(with(allNeighbors[allSelector, ], {
+			allLatent<-c(latent1, latent2)[!duplicated(c(id1, id2))]
+			return(length(latent1)*(mean(allLatent)^2
+                    +mean(!allLatent)^2))
+	}))
+	return(out)
+}, allNeighbors))
+rownames(pairings)<-pairings$dist
+@
+
+To look for more matches than expected by random pairing between neighboring proviruses, we used a one sample Z-test of proportion to compare the observed number of matching pairs with the expected proportion of pairs.
+<<pairsZTest,highlight=FALSE,tidy=TRUE>>=
+combinations<-c('All'='All', 'Between sample'='Out', 'Within sample'='In')
+lapply(combinations, function(x, pairing){
+    vars<-sprintf(c('observed%s', 'expected%s', 'total%s'), x)
+    expectedProb<-pairing[, vars[2]]/pairing[, vars[3]]
+    prop.test(pairing[, vars[1]], pairing[, vars[3]], p=expectedProb)
+}, pairings['100', ])
+@
+\section{Compiling this document}
+This document was generated using R's Sweave function (http://en.wikipedia.org/wiki/Sweave). If you would like to regenerate this document, download Additional Files 2, 3 and 4 and make sure the files are all in the same directory and named AdditionalFile2.csv.gz, AdditionalFile3.csv.gz and AdditionalFile4.Rnw. Then compile by going to that directory and using the commands:\\
+R CMD Sweave AdditionalFile4.Rnw\\
+pdflatex AdditionalFile4.tex\\
+
+Note that you will need R and \LaTeX{} (and the R package glmnet if you would like to rerun the lasso regressions) installed.
+
+%\end{document}
+
