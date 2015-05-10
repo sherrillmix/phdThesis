@@ -60,29 +60,32 @@
 
 	\begin{flushleft}
 
-	Supervisor of Dissertation\\[\signatures] % Space for signature, you can fiddle with this as you like
+	Supervisor of Dissertation:\\[\signatures] % Space for signature, you can fiddle with this as you like
 
+	\setlength\parindent{2em}
 	\renewcommand{\tabcolsep}{0 pt}
-	\begin{table}[h]
 	\begin{tabularx}{\maxlen}{l}
 	\toprule
 	\mysupervisorname, \mysupervisortitle\\ %Space between advisor and graduate chair, you can fiddle with this as you like
 	\end{tabularx}
-	\end{table}
+	\setlength\parindent{0em}
 
-	Graduate Group Chairperson\\[\signatures] % Space for signature, you can fiddle with this as you likee
+	Graduate Group Chairperson:\\[\signatures] % Space for signature, you can fiddle with this as you likee
 
-	\begin{table}[h]
+	\setlength\parindent{2em}
 	\begin{tabularx}{\maxlen}{l}
 	\toprule
 	\gradchairname, \gradchairtitle\\ %Space between advisor and graduate chair, you can fiddle with this as you like
 	\end{tabularx}
-	\end{table}
+	\setlength\parindent{0em}
 	\singlespacing
 
 	Dissertation Committee: % No signature necessary
 
+	\setlength\parindent{2em}
 	\mycommittee
+	\setlength\parindent{0em}
+
 
 	\end{flushleft}
 \end{titlepage}
@@ -120,9 +123,6 @@
 \pagebreak 
 
 % Changing formatting for preliminary pages (NOT OPTIONAL)
-\newenvironment{preliminary}{}{}
-\titleformat{\chapter}[hang]{\large\center}{\thechapter}{0 pt}{}
-\titlespacing*{\chapter}{0pt}{-33 pt}{6 pt} % The key value here is the -33 pts, I got to it by old fashioned measuring with a ruler....
 \begin{preliminary}
 
 % DEDICATION (OPTIONAL)
@@ -191,7 +191,7 @@
 
 %% MAIN TEXT
 \newenvironment{mainf}{}{}
-\titleformat{\chapter}[hang]{\large\center}{CHAPTER \thechapter}{0 pt}{ : }
+\titleformat{\chapter}[hang]{\large\center\bfseries}{CHAPTER \thechapter}{0 pt}{ : }
 \titlespacing*{\chapter}{0pt}{-29 pt}{6 pt} % The key value here is the -29 pts, I got to it by old fashioned measuring with a ruler....
 \begin{mainf}
 
