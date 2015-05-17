@@ -7,6 +7,6 @@ sherrill-Mix_thesis.pdf: sherrill-Mix_thesis.tex */*.tex headMatter.tex penn_the
 	pdflatex -output-directory tmp sherrill-Mix_thesis
 	cp tmp/sherrill-Mix_thesis.pdf .
 
-sherrill-Mix_abstract.txt: sherrill-Mix_thesis.tex 
+sherrill-Mix_abstract.txt: sherrill-Mix_thesis.tex generateAbstract.bash
 	./generateAbstract.bash sherrill-Mix_thesis.tex>sherrill-Mix_abstract.txt
 
