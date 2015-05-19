@@ -54,10 +54,8 @@
 
 			\begin{figure}
 			\centering
-			%%[[FIX THIS FIGURE]]
-				\includegraphics[width=.6\textwidth]{consensus.pdf} %REMOVE%
-				\includegraphics[width=.6\textwidth]{bases.pdf} %REMOVE%
-			\caption[Bioinformatic analysis to design subtype-agnostic RT-LAMP primers]{Bioinformatic analysis to design subtype-agnostic RT-LAMP primers. A) Conservation of sequence in HIV. HIV genomes (n = 1340) from the Los Alamos National Laboratory collection were aligned and conservation calculated. The x-axis shows the coordinate on the HIV genome, the y-axis shows the proportion of sequences matching the consensus for each 21 base segment of the genome (red points). The black line shows a 101 base sliding average over these proportions. The vertical red shading shows the region targeted for LAMP primer design that was used as input into the EIKEN primer design tool. Numbering is relative to the \hivEight{} sequence. B) Aligned genomes, showing the locations of the ACeIN-26 primers. Sequences in the red shaded region in A are shown, with DNA bases color-coded as shown at the lower right. Each row indicates an HIV sequence and each column a base in that sequence. Horizontal lines separate the HIV subtypes (labeled at right). Arrows indicate the strand targeted by each primer. Primers targeting the negative strand of the virus are shown as reverse compliments for ease of viewing.}
+				\includegraphics[width=.91\textwidth]{2.pdf} %REMOVE%
+			\caption[Subtype-agnostic RT-LAMP primers design]{Bioinformatic analysis to design subtype-agnostic RT-LAMP primers. A) Conservation of sequence in HIV. HIV genomes (n = 1340) from the Los Alamos National Laboratory collection were aligned and conservation calculated. The x-axis shows the coordinate on the HIV genome, the y-axis shows the proportion of sequences matching the consensus for each 21 base segment of the genome (red points). The black line shows a 101 base sliding average over these proportions. The vertical red shading shows the region targeted for LAMP primer design that was used as input into the EIKEN primer design tool. Numbering is relative to the \hivEight{} sequence. B) Aligned genomes, showing the locations of the ACeIN-26 primers. Sequences are shown with DNA bases color-coded as shown at the lower right. Each row indicates an HIV sequence and each column a base in that sequence. Horizontal lines separate the HIV subtypes (labeled at left). Arrows indicate the strand targeted by each primer. Primers targeting the negative strand of the virus are shown as reverse compliments for ease of viewing.}
 			\label{figConsensus}
 			\end{figure}
 
@@ -89,10 +87,12 @@
 			For clinical implementation the reliability of an assay is critical. This is commonly summarized as a Z-factor \citep{Zhang1999}, which takes into account both the separation in means between positive and negative samples and the variance in measurement of each. An assay with a Z-factor above 0.5 is judged to be an excellent assay. Z-factors for detection of each of the subtypes at 5000 RNA copies per reaction were $>0.50$ for subtypes A, B, C, D, and G, respectively (Figure \ref{figZFactor}, n = 24 replicates per test). Detection of subtype F at 5000 copies per reaction was sporadic, showing a much lower Z-factor. Therefore our ACeIN-26 RT-LAMP primer set appears well suited to detect 5000 copies of subtypes A, B, C, D and G.
 
 			\begin{figure}
-			\centering
-				\includegraphics[width=\textwidth]{4.pdf} %REMOVE%
-			\caption[Examples of time course assays, displaying replicate tests of RT-LAMP primer set ACeIN-26 tested over six HIV subtypes, used in Z-factor calculations]{Examples of time course assays, displaying replicate tests of RT-LAMP primer set ACeIN-26 tested over six HIV subtypes, used in Z-factor calculations. A total of 5000 RNA copies were tested in each 15 \uL{} reaction. Time is shown on the x-axis, Fluorescence intensity on the y-axis. Replicates are distinguished using an arbitrary color code. Z-factor values and standard deviations are shown on each panel.}
-			\label{figZFactor}
+			\floatbox[{\capbeside\thisfloatsetup{capbesideposition={right,top}}}]{figure}[\FBwidth]{
+				\includegraphics[width=.6\textwidth]{4.pdf} %REMOVE%
+				}{
+					\caption[Examples of time course assays, displaying replicate tests of RT-LAMP primer set ACeIN-26 tested over six HIV subtypes, used in Z-factor calculations]{Examples of time course assays, displaying replicate tests of RT-LAMP primer set ACeIN-26 tested over six HIV subtypes, used in Z-factor calculations. A total of 5000 RNA copies were tested in each 15 \uL{} reaction. Time is shown on the x-axis, Fluorescence intensity on the y-axis. Replicates are distinguished using an arbitrary color code. Z-factor values and standard deviations are shown on each panel.}
+					\label{figZFactor}
+				}
 			\end{figure}
 
 \section{Discussion}
