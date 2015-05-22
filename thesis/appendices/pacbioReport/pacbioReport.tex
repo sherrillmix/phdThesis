@@ -1,0 +1,167 @@
+\documentclass[../../sherrill-Mix_thesis.tex]{subfiles}
+
+\begin{document}
+%\graphicspath{{./}{appendices/latencyReport/}}
+\chapter{Generalized linear models of changes in use of mutually exclusive HIV-­1 splice acceptors}
+
+\label{appPacbioReport}
+
+Reads splicing from D1 to one of five mutually exclusive acceptors, D3, D4c, D4a, D4b, D5, and D5a, in three primers, 1.2, 1.3 and 1.4, were collected. Since these data are based on counts, we modeled them as Poisson distributed with an extra variance term allowing for additional variance using a quasi-Poisson generalized linear model with log link. We accounted for differences in sequencing effort by including the total number of D1 to mutually exclusive acceptors reads in each primer-sample as an offset. Differences in the read counts a) over time,b) between human donor and c) cell type were analyzed separately. A term was included for each acceptor and its interaction with the variable of interest. The models included primer and replicate terms and their individual interactions with acceptor to account for any confounding factors. 
+
+\section{HOS vs T Cells}
+
+R command:
+\begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
+glm(count~offset(log(total)) + acceptor:primer + acceptor:isHos
++ acceptor, data = mutEx[mutEx$time == 48,],
+family = 'quasipoisson')
+\end{lstlisting}
+
+Difference between HOS and T cells may be confounded by run differences between early sequencing and later sequencing. Verification by agarose gel (Figure \ref{figJunctions}b) suggest that these differences are likely biological.
+
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|l|S[table-format=3.0]|S[table-format=6.0]|S[table-format=3.0]|S[table-format=4.0]|S[table-format=4.2]|l|}
+ \hline
+ Variable        & {Df} & {Deviance} & {Resid. Df} & {Resid. Dev} & {$F$} & Pr(\textgreater$F$)    \\ 
+ \hline
+ NULL            & 395  & 138330     &             &              &       &                        \\ 
+ acceptor        & 5    & 133985     & 390         & 4345         & 9004  & \textless\num{2.2e-16} \\ 
+ acceptor:primer & 12   & 751        & 378         & 3594         & 21.03 & \textless\num{2.2e-16} \\ 
+ acceptor:isHos  & 6    & 2466       & 372         & 1127         & 138.1 & \textless\num{2.2e-16} \\ 
+ \hline
+\end{tabular}
+}
+
+So after accounting for primer-acceptor bias, the difference between HOS and T cells is significant.
+
+The interesting terms in the model are:
+
+\begin{tabular}{|l|S[table-format=1.4]|S[table-format=1.5]|S[table-format=2.3]|l|}
+\hline
+Variable              & {Estimate} & {Std. Error} & {$t$ value} & {Pr(\textgreater$|t|$)}    \\ 
+\hline
+acceptorA3:isHosTRUE  & 1.4717     & 0.06586      & 22.35       & \textless\num{2.2e-16}        \\ 
+acceptorA4a:isHosTRUE & -0.9449    & 0.1246       & -7.583      & \num{2.73e-13}                \\ 
+acceptorA4b:isHosTRUE & -0.9285    & 0.1059       & -8.767      & \textless\num{2.2e-16}        \\ 
+acceptorA4c:isHosTRUE & -1.228     & 0.1066       & -11.51      & \textless\num{2.2e-16}        \\ 
+acceptorA5:isHosTRUE  & 0.09082    & 0.02608      & 3.483       & \num{0.000555}                \\ 
+acceptorA5a:isHosTRUE & 0.6308     & 0.07940      & 7.945       & \num{2.33e-14}                \\ 
+\hline
+\end{tabular}
+
+So it appears A3 is up; A4c, A4a and A4b are down; A5 is up a little and A5a up in HOS.
+
+\section{HOS Over Time}
+R command:
+\begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
+glm(value~offset(log(total)) + acceptor + acceptor:primer 
++ acceptor:time, data=mutEx[mutEx$isHos,],
+family ='quasipoisson')
+\end{lstlisting}
+
+Looking only within HOS, we see a significant linear effect of time:
+
+\begin{tabular}{|l|S[table-format=2.0]|S[table-format=5.1]|S[table-format=2.0]|S[table-format=3.1]|S[table-format=4.3]|l|}
+ \hline
+ Variable        & {Df} & {Deviance} & {Resid. Df} & {Resid. Dev} & {$F$} & Pr(\textgreater$F$)    \\ 
+ \hline
+ NULL            & 53   & 17962      &             &              &       &                        \\ 
+ acceptor        & 5    & 17710      & 48          & 252.2        & 6698  & \textless\num{2.2e-16} \\ 
+ acceptor:primer & 12   & 18.0       & 36          & 234.2        & 2.834 & \num{0.01018}         \\ 
+ acceptor:time   & 6    & 217.8      & 30          & 16.4         & 68.65 & \num{3.57e-16}         \\ 
+ \hline
+\end{tabular}
+
+We are assuming that a particular acceptor will have the same change in all three primers here. 
+
+The interesting terms are:
+
+\begin{tabular}{|l|S[table-format=1.4]|S[table-format=1.7]|S[table-format=2.3]|l|}
+\hline
+Variable         & {Estimate} & {Std. Error} & {$t$ value} & {Pr(\textgreater$|t|$)}    \\ 
+\hline
+acceptorA3:time  & 0.02477    & 0.001778     & 13.93       & \num{1.22e-14}                \\ 
+acceptorA4a:time & -0.01621   & 0.002812     & -5.765      & \num{2.69e-06}                \\ 
+acceptorA4b:time & -0.02526   & 0.002271     & -11.12      & \num{3.62e-12}                \\ 
+acceptorA4c:time & 0.015867   & 0.003050     & 5.202       & \num{1.32e-05}                \\ 
+acceptorA5:time  & -0.001918  & 0.0006313    & -3.038      & \num{0.0049}                  \\ 
+acceptorA5a:time & 0.0049199  & 0.001969     & 2.499       & \num{0.0182}                  \\ 
+\hline
+\end{tabular}
+
+So A3, A4c and A5a increase over time and A4a, A4b and A5 decrease over time. All of these coefficients are with a log link and linear and so multiplicative. That means that for example A3 will increase 2.5\%/hour (exp(.0247)) or equivalently 81\% ($1.025^{24}$) over 24hours.
+
+\section{Between Human Comparison}
+R command:
+\begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
+glm(value~offset(log(total)) + acceptor + acceptor:run
++ acceptor:primer + acceptor:subject, 
+data=mutEx[!mutEx$isHos,], family = 'quasipoisson')
+\end{lstlisting}
+
+In humans, we added a term to account for any potential run bias between the three replicates. Subject refers to the seven human blood donors from which T cells were collected:
+
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|l|S[table-format=3.0]|S[table-format=6.0]|S[table-format=3.0]|S[table-format=4.0]|S[table-format=5.3]|l|}
+ \hline
+ Variable         & {Df} & {Deviance} & {Resid. Df} & {Resid. Dev} & {$F$} & Pr(\textgreater$F$)    \\ 
+ \hline
+ NULL             & 377  & 128430     &             &              &       &                        \\ 
+ acceptor         & 5    & 126446     & 372         & 1985         & 19598 & \textless\num{2.2e-16} \\ 
+ acceptor:run     & 12   & 136        & 360         & 1849         & 8.792 & \num{1.77e-14}         \\ 
+ acceptor:primer  & 12   & 850        & 348         & 998          & 54.91 & \textless\num{2.2e-16} \\ 
+ acceptor:subject & 36   & 597        & 312         & 401          & 12.86 & \textless\num{2.2e-16} \\ 
+ \hline
+\end{tabular}
+}
+
+So after accounting for any run and primer bias, subject ID has a statistically significant effect on our observed counts. If we compare everything to subject 7, the interesting terms are:
+
+\resizebox*{!}{\dimexpr\textheight-2\baselineskip\relax}{
+\begin{tabular}{|l|S[table-format=1.6]|S[table-format=1.5]|S[table-format=2.3]|l|}
+\hline
+Variable             & {Estimate} & {Std. Error} & {$t$ value} & {Pr(\textgreater$|t|$)}    \\ 
+\hline
+acceptorA3:subject6  & -0.001399  & 0.07286      & -0.019      & \num{0.9847}                  \\ 
+acceptorA4a:subject6 & -0.11290   & 0.04944      & -2.284      & \num{0.02307}                 \\ 
+acceptorA4b:subject6 & -0.05433   & 0.04038      & -1.345      & \num{0.1795}                  \\ 
+acceptorA4c:subject6 & 0.02829    & 0.03360      & 0.842       & \num{0.4005}                  \\ 
+acceptorA5:subject6  & 0.01683    & 0.01600      & 1.051       & \num{0.2939}                  \\ 
+acceptorA5a:subject6 & -0.03085   & 0.06092      & -0.506      & \num{0.6129}                  \\ 
+acceptorA3:subject5  & -0.07767   & 0.07423      & -1.046      & \num{0.2962}                  \\ 
+acceptorA4a:subject5 & -0.1144    & 0.04982      & -2.296      & \num{0.0223}                  \\ 
+acceptorA4b:subject5 & -0.0684    & 0.04090      & -1.672      & \num{0.0956}                  \\ 
+acceptorA4c:subject5 & -0.08585   & 0.03475      & -2.471      & \num{0.0140}                  \\ 
+acceptorA5:subject5  & 0.03888    & 0.01616      & 2.406       & \num{0.0167}                  \\ 
+acceptorA5a:subject5 & 0.07877    & 0.06038      & 1.304       & \num{0.1930}                  \\ 
+acceptorA3:subject4  & -0.1849    & 0.09578      & -1.931      & \num{0.0544}                  \\ 
+acceptorA4a:subject4 & 0.07186    & 0.05791      & 1.241       & \num{0.2156}                  \\ 
+acceptorA4b:subject4 & 0.12620    & 0.04714      & 2.677       & \num{0.0078}                  \\ 
+acceptorA4c:subject4 & -0.10021   & 0.04303      & -2.329      & \num{0.0205}                  \\ 
+acceptorA5:subject4  & -0.00116   & 0.01969      & -0.059      & \num{0.9531}                  \\ 
+acceptorA5a:subject4 & 0.02346    & 0.07353      & 0.319       & \num{0.7499}                  \\ 
+acceptorA3:subject3  & -0.00351   & 0.08665      & -0.041      & \num{0.9677}                  \\ 
+acceptorA4a:subject3 & 0.07107    & 0.05564      & 1.277       & \num{0.2024}                  \\ 
+acceptorA4b:subject3 & 0.00646    & 0.04699      & 0.138       & \num{0.8907}                  \\ 
+acceptorA4c:subject3 & -0.06334   & 0.04076      & -1.554      & \num{0.1212}                  \\ 
+acceptorA5:subject3  & 0.01052    & 0.01887      & 0.557       & \num{0.5776}                  \\ 
+acceptorA5a:subject3 & -0.07095   & 0.07285      & -0.974      & \num{0.3309}                  \\ 
+acceptorA3:subject2  & -0.2329    & 0.09176      & -2.539      & \num{0.0116}                  \\ 
+acceptorA4a:subject2 & 0.02405    & 0.05643      & 0.426       & \num{0.6702}                  \\ 
+acceptorA4b:subject2 & 0.1107     & 0.04535      & 2.441       & \num{0.0152}                  \\ 
+acceptorA4c:subject2 & 0.02176    & 0.03952      & 0.551       & \num{0.5823}                  \\ 
+acceptorA5:subject2  & -0.003760  & 0.01869      & -0.201      & \num{0.8407}                  \\ 
+acceptorA5a:subject2 & -0.1608    & 0.07351      & -2.187      & \num{0.0295}                  \\ 
+acceptorA3:subject1  & 0.09536    & 0.06556      & 1.454       & \num{0.1468}                  \\ 
+acceptorA4a:subject1 & 0.02932    & 0.04431      & 0.662       & \num{0.5087}                  \\ 
+acceptorA4b:subject1 & -0.2144    & 0.03843      & -5.578      & \num{5.28e-08}                \\ 
+acceptorA4c:subject1 & -0.3974    & 0.03385      & -11.74      & \textless\num{2.2e-16}        \\ 
+acceptorA5:subject1  & 0.09144    & 0.01470      & 6.221       & \num{1.58e-09}                \\ 
+acceptorA5a:subject1 & 0.02747    & 0.05594      & 0.491       & \num{0.6238}                  \\ 
+\hline
+\end{tabular}
+}
+
+So there were small but significant effects between subjects especially between subject 1 and subjects 2--7. Interestingly T cells were collected from apheresis product in subject 1 and from whole blood in subjects 2--7 although why this would affect later assays is unknown. 
+
+\end{document}
