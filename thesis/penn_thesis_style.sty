@@ -180,6 +180,39 @@
 
 \usepackage{siunitx} %\num for numbers
 
+
+\newcommand{\textBox}[1]{
+	\begin{center}
+	\fbox{\begin{minipage}[c]{.8\textwidth}
+		#1
+		\end{minipage}
+	}
+	\end{center}
+}
+
+\newenvironment{tightcenter}{%
+	\setlength\topsep{0em}
+	\setlength\parskip{0em}
+	\begin{center}
+}{%
+	\end{center}
+}
+
+
+\newcommand{\citeBox}[1]{
+	\singlespacing
+	\vspace{-.7\baselineskip}
+	\begin{center}
+	\parbox{.8\textwidth}{\bibentry{#1}}
+	\end{center}
+	\doublespacing
+	\vspace{.8\baselineskip}
+}
+
+\usepackage{bibentry} %embed citations in text
+\nobibliography* %we're still doing a normal biblio
+
+
 %boxes around figures
 %\usepackage{float}
 %\usepackage[framemethod=tikz]{mdframed}

@@ -220,12 +220,12 @@ FUNCTION {format.names}
   s num.names$ 'numnames :=
   numnames 'namesleft :=
     { namesleft #0 > }
-    { s nameptr "{f.~}{vv~}{ll}{, jj}" format.name$ 't :=
+    { s nameptr "{f{}~}{vv~}{ll}{, jj}" format.name$ 't :=
       nameptr #1 >
         { namesleft #1 >
             { ", " * t * }
             { numnames #2 >
-                { "," * }
+                { "" * } %add comma here for oxford comma
                 'skip$
               if$
               t "others" =
@@ -239,7 +239,7 @@ FUNCTION {format.names}
       if$
       nameptr #1 + 'nameptr :=
       namesleft #1 - 'namesleft :=
-		nameptr #10 = namesleft #10 > and
+		nameptr #10 = namesleft #1 > and
 		{
 			" et~al." *
 			#1 'nameskip :=
