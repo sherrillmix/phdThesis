@@ -7,11 +7,15 @@
 \usepackage[doublespacing]{setspace} % Needed to set double-spacing for the main document, but needs more adhoc commands to
 								% use single spacing for tables, etc.
 \usepackage{calc}
+\usepackage{xcolor} %for reproducible report appendices and font coloring
+\usepackage[hidelinks]{hyperref}  %update with title and author in headmatter
 
 
 %formatting
-\usepackage{newcent}
+%\usepackage{newcent}
 \usepackage[final]{microtype}
+%try to fix bad lines
+\setlength{\emergencystretch}{1em}
 
 %number within chapters
 \makeatletter
@@ -95,8 +99,10 @@
 \usepackage{parskip} % To allow for better management of the Dutch paragraph style
 \usepackage{url} % To allow for better typing of the url in the Creative Commons part of the copyright
 \usepackage[sort,compress,super,comma]{natbib} % allows the author-date citation system
+\definecolor{citeColor}{gray}{0.3}
+\renewcommand{\citenumfont}[1]{\textcolor{citeColor}{\scriptsize{#1}}}
 %\bibpunct{(}{)}{;}{a}{,}{,} % options for natbib to yield the citation style I like
-%\bibpunct{[}{]}{,}{n}{,}{,} % options for natbib
+\bibpunct{}{}{\textcolor{citeColor}{\scriptsize{,}}}{s}{,}{,} % options for natbib
 
 % Other packages that are not needed for the template, but I highly recommend (and all of your own packages go here to)
 % Add them one by one to make sure they do not interfere, for instance the package subfigure clashes with this template
@@ -122,12 +128,26 @@
 	\titlespacing*{\chapter}{0pt}{-33 pt}{6 pt} % The key value here is the -33 pts, I got to it by old fashioned measuring with a ruler....
 }{}
 
+%% MAIN TEXT formatting
+\newenvironment{mainMatter}{
+	%\titleformat{\chapter}[display]{\large\center\bfseries\begin{minipage}[t]{\widthof{CHAPTER \thechapter: }}}{CHAPTER \thechapter: }{0 pt}{\end{minipage}\begin{minipage}[t]{\linewidth-\widthof{CHAPTER \thechapter:}}\centering}[\end{minipage}]
+	\titleformat{\chapter}[hang]{\large\center\bfseries}{CHAPTER \thechapter: }{0 pt}{}
+	\titlespacing*{\chapter}{0pt}{-29 pt}{6 pt} % The key value here is the -29 pts, I got to it by old fashioned measuring with a ruler....
+	\newpage
+	\pagenumbering{arabic}
+	\pagestyle{plain} % This has to be repeated here because the lists change the style
+	% Dutch style of paragraph formatting, i.e. no indents. 
+	\setlength{\parskip}{10 pt} % Same as Word file
+	\setlength{\parindent}{0pt}
+}{
+}
 
 
 \usepackage[toc]{appendix} %for appendices
 \renewcommand\appendixtocname{APPENDICES}
 % Changing formatting for appendices
 \newenvironment{appendixf}{
+	\appendix
 	%\titleformat{\chapter}[hang]{\large\center}{APPENDIX}{0 pt}{} % Old {APPENDIX \thechapter}{0 pt}{ : }
 	\titleformat{\chapter}[hang]{\Large\center\bfseries}{APPENDIX \thechapter}{0 pt}{ : }
 	%\renewcommand{\cftchappresnum}{APPENDIX }
@@ -150,8 +170,6 @@
 	\end{appendices}
 }
 
-%try to fix bad lines
-\setlength{\emergencystretch}{1em}
 
 
 \renewcommand\bibname{BIBLIOGRAPHY}
@@ -173,7 +191,6 @@
 
 
 \usepackage{listings} %for reproducible report
-\usepackage{color} %for reproducible report appendices
 \usepackage{framed} %for reproducible report appendices
 \usepackage{alltt} %for reproducible report appendices
 \usepackage{upquote} %for reproducible report appendices
@@ -212,6 +229,9 @@
 \usepackage{bibentry} %embed citations in text
 \nobibliography* %we're still doing a normal biblio
 
+
+%%ONLY FOR DRAFT DELETE THIS [[delete this]]
+\overfullrule=15pt
 
 %boxes around figures
 %\usepackage{float}

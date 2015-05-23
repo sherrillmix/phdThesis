@@ -15,18 +15,29 @@ A common theme was that cell lines and \textit{in vitro} models of these replica
 
 	Various treatments are now being considered for the reactivation of latent provirus \citep{Spina2013}. To further understand the mechanisms of these treatments, it would be informative to compare the features of latent provirus induced by a given treatment to latent viable provirus remaining uninduced. Repeated cell sorting and integration site sequencing might provide insight on mechanism. For example, one could first sort out cells with active provirus, then treat with the potential latency modulator and sort out cells with newly active provirus and then treat with a strong inducer or alternative stimuli and sort out cell with newly activated provirus. This would give subsets of cells where latent proviruses had been activated by treatment and cells with provirus which were not activated by treatment but still inducible. Synergies between treatments could be assessed and the location of integration sites could be determined and used to locate patterns of genomic features correlated with induction for each treatment.
 
-	Current efforts at ``shock and kill'' therapy focus on histone deacetylase inhibitors. If there are diverse mechanisms of latency within patients then much of the latent reservoir may remain unactivated by single target therapies.  Clinical trials with histone deacetylase inhibitors have shown some small increases in viral RNA but little decrease in the latent reservoir of HIV \citep{Lehrman2005,Archin2010,Archin2012,Spivak2014}. It appears that the majority of viable latent provirus from patient cells are not reactivated by current therapies \citep{Cillo2014}. These results are particularly worrisome since 10,000-fold or more reductions of the latent reservoir are likely to be necessary to functionally cure HIV \citep{Hill2014}.
+	Current efforts at ``shock and kill'' therapy, inducing latent virus to activate and eliminating infected cells, focus on histone deacetylase inhibitors. If there are diverse mechanisms of latency within patients then much of the latent reservoir may remain unactivated by single target therapies.  Clinical trials with histone deacetylase inhibitors have shown some small increases in viral RNA but little decrease in the latent reservoir of HIV \citep{Lehrman2005,Archin2010,Archin2012,Spivak2014}. It appears that the majority of viable latent provirus from patient cells are not reactivated by current therapies \citep{Cillo2014}. These results are particularly worrisome since 10,000-fold or more reductions of the latent reservoir are likely to be necessary to functionally cure HIV \citep{Hill2014}.
 
 	In Chapter \ref{chapLatency}, we used publicly available genomic data. Perhaps there is some chromosomal feature with a strong association with latency but the data is not currently available or varies greatly between cell populations. More varieties of annotations are rapidly becoming available \citep{ENCODEPC2012,Barrett2013,Karolchik2014,Goldman2015,Cunningham2015}. Decreasing sequencing costs \citep{Metzker2010,Mardis2011,Wetterstrand2015} may also make it feasible to measure more epigenetic features in the exact cell population of interest. Repeating analysis similar to Chapter \ref{chapLatency}, perhaps by simply rerunning the reproducible report in Appendix \ref{appLatencyReport}, with new data would allow any new features to be monitored for correlations with latency.
 
 
 
 \section{HIV-1 alternative splicing}
-In Chapters \ref{chapPacBio} and \ref{chapRnaSeq}, we showed that HIV RNA spliceforms are more diverse than previously appreciated and estimated the abundances of viral spliceforms. We also showed that splicing varies between host subjects, between cell types and over the course of infection.
+	In Chapters \ref{chapPacBio} and \ref{chapRnaSeq}, we showed that HIV RNA spliceforms are more diverse than previously appreciated and estimated the abundances of viral spliceforms. We also showed that splicing at some splice sites vary between host subjects, between cell types and over the course of infection. Further characterization of viral splicing would be beneficial to the study and treatment of HIV-1 especially as there were some technical limitations to our research that might be improved upon using current techniques.
+	
+	We studied HIV splicing using droplet PCR \citep{Tewhey2009} and a set of customized primer in Chapter \ref{chapPacBio} and bulk sequencing of cellular mRNA in Chapter \ref{chapRnaSeq}. Sequencing biases and difficulties determining full length transcripts from short reads hindered characterization of HIV sequencing. One alternative to these techniques is the targeted capture and enrichment \citep{Depledge2011,Mercer2014} of HIV-specific sequences. Using probes targeted to conserved regions of HIV, similar to the work in Chapter \ref{chapLamp}, would allow for enrichment of viral reads without the biases induced by primer-based PCR while still allowing for efficient use of sequencing effort.
 
-This study was limited by a short read bias in the PacBio sequencing. PacBio sequencing has improved \citep{Mosher2014} and additional long read sequencers have been developed \citep{Mikheyev2014,Jain2015,Kilanski2015}.
+	The research in Chapter \ref{chapPacBio} was also limited by a short read bias in the PacBio sequencing. PacBio sequencing has improved \citep{Mosher2014} and additional long read sequencers have been developed \citep{Mikheyev2014,Jain2015,Kilianski2015}. In addition, Illumina MiSeq sequencers can now produce 25 million paired 300 bp reads in a single run \citep{Juenemann2013,Illumina2015} and better spliceform estimation methods are being developed \citep{Rossel2014,Bray2015}. These improved sequencing techniques might allow for more straightforward analysis of new samples and verification of our previous results.
 
-http://www.lifetechnologies.com/us/en/home/life-science/dna-rna-purification-analysis/rna-extraction/rna-types/total-rna-extraction/magmax-technology.html
+	Transcripts transcribed antisense to the canonically expressed strand of HIV have been observed \citep{Michael1994,Landry2007,Lefebvre2011,Schopman2012,Kobayashi-Ishihara2012,Saayman2014}. These transcripts may be translated to proteins \citep{Ludwig2006,Toresilla2013} that trigger immune response in infected individuals \citep{Ludwig2006,Bansal2010}.  Our sequencing techniques were designed only for the HIV positive strand (Chapter \ref{chapPacBio}) or did not preserve strand information (Chapter \ref{chapRnaSeq}). Strand-specific sequencing \citep{Levin2010,Podnar2014} of various HIV strains under varying cellular conditions would help to clarify the identity of these transcripts. Ribosome profiling \citep{Ingolia2009,Ingolia2011,Ingolia2014} of infected cells might also clarify whether these transcripts are likely to be translated. These cryptic transcripts could offer a new opportunity in vaccine design \citep{Bansal2010} but first their abundance, identity and conservation across strains of HIV must be ascertained.
+	
+	 We observed that splicing varies over the course of infection, between human subjects and between cell types. Further sampling would help to clarify patterns in these splicing changes. [[A sentence on macrophage and resting]] [[long term non progressors]] [[24 hour in life HIV]] [[]] Additional cell types, in particular macrophage \citep{Carter2006},  [[many previous studies in lab strains]] [[more patient strains]] [[founder virus]] [[other retrovirus]]
+	 %In addition to the improvement sequencing techniques, the cost of sequencing is dropping \citep{Metzker2010,Mardis2011,Wetterstrand2015}.
+
+	Disruption of RNA processing can drastically viral replication \citep{Wetz1997,Caputi2004,Madsen2005,Paca-Uccaralertkun2006,Mandal2008}. Small molecules that inhibit cellular SR splicing proteins and disrupt viral splicing show promise as antiretroviral therapies \citep{Fukuhara2006,Bakkour2007,Wong2011,Wong2013}. A better understanding of viral splicing may lead to better treatment.
+
+	
+
+
 
 
 Further clarification using more detailed sequencing in more time points, cell types and strains of HIV-1 and other lentiviruses rema
@@ -42,9 +53,17 @@ Evolution of new proteins and epitopes
 
 In Chapter \ref{chapPacBio}, we showed that HIV RNA spliceforms are more diverse than previously appreciated. We also showed that splicing varies between host subjects, between cell types and over the course of infection.
 
+Differences in miRNA expression between infected and uninfected and elite controllers and viremic patients by NanoString array but confounded by changes in proportion of \cdFour T cells\citep{Witwer2012}. Poor cell culture characterization with SAGE-Seq, saw antisense HIV \citep{Lefebvre2011}. Illumina sequencing over time of infection, widespread changes (RNA extraction with mirvana kit)  \citep{Chang2011}.  Solid sequencing of short RNA in infection finds mostly positive strand miRNA and <2\% antisense possible miRNA and changes in tRNA Lys3\citep{Schopman2012}.
 
+Recent research has shown that
 
-Non polyadenylated RNA. Strand specific sequencing. Longer reads and longer fragments.
+miRNA http://jcs.biologists.org/content/128/8/1607.full 
+
+Small RNA sequencing would also allow further characterization of viral small RNAs. Viral derived microRNA, perhaps in part from Dicer processing of the structured trans-activation response element structured RNA of HIV \citep{Klase2007,Oullet2008,Schopman2012,Klase2009}, may suppress HIV expression \citep{Omoto2004,Triboulet2007,Chable-Bessia2009} and inhibit apoptosis \citep{Klase2009} but the presence of such miRNA is controversial \citep{Pfeffer2005,Lin2007}. HIV may suppress miRNA silencing \citep{Bennasser2005,Triboulet2007,Qian2009} but controversial \citep{Lin2007}
+
+%http://www.lifetechnologies.com/us/en/home/life-science/dna-rna-purification-analysis/rna-extraction/rna-types/total-rna-extraction/magmax-technology.html
+
+Non polyadenylated RNA Katze paper. Strand specific sequencing. Longer reads and longer fragments.
 
 Localization nucleus vs cytoplasm
 

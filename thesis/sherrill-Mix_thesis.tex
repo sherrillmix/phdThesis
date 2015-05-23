@@ -2,7 +2,6 @@
 
 \documentclass[11pt]{report} % This is in order to have the chapter feature and page numbers in the same location on even and odd pages. 
 % Acceptable font sizes are 10 to 12 pts
-\usepackage[pdfusetitle,pdfauthor={Scott Sherrill-Mix},hidelinks]{hyperref}  %[[update with title]]
 \usepackage{penn_thesis_style}
 
 % Defining variables to be used throughout the document for personalization
@@ -23,7 +22,7 @@
 \def\mydedication{Dedicated to William Maurer, Gayle Maurer \& Michele Sherrill-Mix}
 \def\myacknowledgements{I would like to thank 
 
-Rick
+Rick Bushman
 
 Bushman lab Chris wetlab
 Christian Hoffmann
@@ -34,10 +33,9 @@ Friends in the Bushman lab and classmates in GCB. Fan Paul Nate Yichii
 
 My committee---Nancy Zhang, Yosephy Barash, Kristen Lynch and Michael Malim---have provided guidance and encouragement. Many faculty of GCB mentoring and teaching. Hannah Chervitz, Tiffany Barlow, Mali Skotheim, Caitlin Greig and Laurie Zimmerman for managing everything and helping manage the layers of bureacracy. Funding from the HIV Immune Networks Team (HINT) consortium P01 AI090935 and NRSA computational genomics training grant T32 HG000046. 
 
-Ram Myers and Mike James
+Ram Myers and Mike James for great previous mentoring.
 
 Xiaofen and Otto
-
 
 \ldots
 
@@ -87,6 +85,8 @@ Xiaofen and Otto
 \begin{document}
 \input{headMatter.tex}
 
+\begin{mainMatter}
+
 \subfile{intro/intro}
 
 \subfile{latency/latency}
@@ -99,11 +99,9 @@ Xiaofen and Otto
 
 \subfile{conclusion/conclusion}
 
-\end{mainf}
+\end{mainMatter}
 
 %% APPENDICES (OPTIONAL)
-\appendix
-
 \begin{appendixf}
 
 %\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}} % This is to fix how appendices are shown in ToC
@@ -124,10 +122,8 @@ Xiaofen and Otto
 
 
 \begin{bibliof}
-
 \bibliographystyle{unsrtnat2}
 \bibliography{refs} % This is the filename of the bibtex bibliography file (it has to be in the same directory as the main LaTeX file)
-
 \end{bibliof}
 %% INDEX (OPTIONAL) - I do not really know how to code this, sorry
 
