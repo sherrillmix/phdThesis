@@ -67,15 +67,14 @@ HIV is an enveloped single strand positive-sense retrovirus, an RNA virus which 
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{lifecycle.pdf} %REMOVE%
-	\caption[The HIV lifecycle]{The HIV lifecycle [[CAPTION HERE]]}
+	\caption[The HIV replication cycle]{The HIV replication cycle} %[[check rick book for caption]]
 	\label{figHIVLifecycle}
 \end{figure}
 
 \begin{figure}
 	\centering
-	%\includegraphics[width=\textwidth]{LifeCycleJan2012small-1.pdf} %REMOVE%
-	[[GENOME FIG]]
-	\caption[The HIV-1 genome]{The HIV-1 genome [[CAPTION HERE]]}
+	\includegraphics[width=\textwidth]{genome.png} %REMOVE%
+	\caption[The HIV-1 genome]{The HIV-1 genome. Rectangles indicates open reading frames and the \fivePrime{} and \threePrime{} LTR. Splicing in tat and rev is shown as a connecting line. Coordinates are for the HIV strain HXB2.}
 	\label{figHIVGenome}
 \end{figure}
 
@@ -83,19 +82,17 @@ HIV is an enveloped single strand positive-sense retrovirus, an RNA virus which 
 The HIV genome encodes genes for at least two polyproteins and seven proteins:\\ % \gag{} and \pol{}, and seven proteins, \tat{}, \rev{}, \nef{}, \vpr{}, \vif{} and \vpu{}.
 \begin{description}
 	\item[\gag{}]
-		Gag (group specific antigens) is cleaved by viral protease to produce matrix, capsid, nucleocapsid and p6 protein along with two small spacer peptides SP1 and SP2. 
+		Gag (group specific antigens) is a myristoylated membrane protein which is [[something]] on the virion surface and cleaved by viral protease after virion budding to produce matrix, capsid, nucleocapsid and p6 protein along with two small spacer peptides SP1 and SP2. 
 		\begin{description}
 			\item[MA]
-				p17 MA (matrix)
+				p17 MA (matrix) aids in transport of genome to the nucleus \citep{Heinzinger1994}.
 			\item[CA]
-				p24 CA (capsid) is a myristoylated membrane protein.
+					p24 CA (capsid) proteins assemble into to form a protective shell around RNA genome of the virus. The viral capsid is composed of around 1500 copies of CA arranged into hexameric rings interspersed with with 12 pentameric rings to form fullerene cone \citep{Ganser1999,Li2000,Byeon2009,Zhao2013}. CA binds cellular CPSF6 \citep{Lee2010}, cyclophilin A \citep{Thali1994,Gamble2007} the cyclophilin domain of RanBP2 \citep{Schaller2011}, perhaps to gain access to the nucleus \citep{Schaller2011} and to avoid premature uncoating and exposure of the viral genome to innate immunity \citep{Rasaiyaah2013}.
 			\item[NC]
 				p7 NC (nucleocapsid)
 			\item[p6]
-				p6 (protein 6 kda) is a small protein which appears to primarily recruit cellular proteins to allow virion budding from the cell membrane \citep{Veronese1987,Goettlinger1991,Strack2003}.
+				p6 (protein 6 kda) is a small protein which appears to primarily recruit cellular proteins to allow virion budding from the cell membrane \citep{Veronese1987,Goettlinger1991,Strack2003} and aid in the packaging of Vpr in to particles \citep{Paxton1993}.
 		\end{description}
-			
-
 	\item[\pol{}]
 		Pol (polymerase) is cleaved by viral protease to produce reverse transcriptase, RNaseH, integrase and HIV protease. 
 		\begin{description}
@@ -118,17 +115,19 @@ The HIV genome encodes genes for at least two polyproteins and seven proteins:\\
 	\item[\nef{}]
 			Nef (negative factor) is a myristoylated membrane associated protein \citep{Yu1992} that is involved in multiple functions. Nef causes endocytosis of the HIV receptors CD4 \citep{Garcia1991,Benson1993,Aiken1994,Lama1999,Ross1999} and CCR5 \citep{Michel2005} and viral surveillance major histocompatibility complex molecules \citep{Schwartz1996,Collins1998,Stumptner-Cuvelette2001,Blagoveshchenskaya2002}. Nef also induces T cell activation through interactions with signaling kinases and the T cell receptor \citep{Xu1999,Schrager1999,Wang2000,Simmons2001,Schrager2002}. In contrast, Nef in most other primate lentiviruses inhibits activation and inflammation \citep{Schindler2006} perhaps indicating that the gain of \vpu{} in HIV-1 and its simian relatives allowed the loss of the immune inhibition traits of \nef{} and contributes to the increased pathogenecity in these viruses \citep{Kirchhoff2008,Kirchhoff2009}.
 	\item[\vpr{}]
-		Vpr (viral protein R)
+		Vpr (viral protein R) is a 15 kDa protein \citep{Wong-Staal1987,Cohen1990} with diverse functions that is incorporated into virions \citep{Cogen1990a}. Vpr arrests the cell in the G2 phase of the cell cycle \citep{Jowett1995,Re1995,He1995,Rogel1995}, aids in transport of the viral genome to the nucleus \citep{Heinzinger1994}
 	\item[\vif{}]
 		Vif (virion infectivity factor) counteracts the cellular restriction factor APOBEC3G \citep{Sheehy2002} by excluding APOBEC3G from incorporation into the virion \citep{Mariani2003} and causing APOBEC3G to be ubiquitinated and degraded \citep{Sheehy2003,Marin2003,Yu2003}. APOBEC3G is otherwise packaged into virions \citep{Harris2003} and deaminates the HIV genome during reverse transcription causing G-to-A hypermutation \citep{Harris2003,Mangeat2003,Zhang2003,Lecossier2003}.
 	\item[\vpu{}]
 		Vpu (viral protein U) \citep{Cohen1988,Strebel1988} is a small integral membrane protein which has two known functions; degradation of CD4 and downregulation of BST-2 from the cell membrane [[cites]]. Vpu causes cellular CD4 to be ubiquitinated and degraded \citep{Willey1992,Bour1995} which prevents interactions between progeny virus Env and host cell CD4 \citep{Marshall1992,Lama1999,Ross1999,Cortes2002} and superinfection by other viruses \citep{Benson1993}  while also releasing Env proteins from CD4 interactions in the endoplasmic reticulum \citep{Crise1990,Bour1991}. Vpu also counteracts the cellular restriction factor BST-2, which would otherwise interfere with viral budding \citep{Neil2008}. Vpu does not appear to be found in the virion \citep{Strebel1989}.
 		%cd4 degradation 
-		%http://www.nature.com/nrmicro/journal/v7/n6/full/nrmicro2111.html
 \end{description}
 
 %http://www.sciencedirect.com/science/article/pii/S0966842X04000253
 
+
+CD4 receptor \citep{Lifson1986,Lifson1986a,Maddon1986} CXCR4 \citep{Feng1996} CCR3 and CCR5 coreceptor \citep{Choe1996,He1997} classification \citep{Berger1998}
+HIV tropism infects macrophages \citep{Koenig1986}
 
 %pre integration complex \citep{Bowerman1989}. extracts from HIV infected cells able to integrate in cell free system \citep{Ellison1990,Farnet1990} contains integrase and matrix and RT \citep{Farnet1991,Bukrinsky1993} %farnet1991 says int only
 %integrase alone can integrate HIV DNA\citep{Busman1990}
@@ -148,9 +147,11 @@ HIV diversification within a single patient in env loop \citep{Holmes1992} posit
 %REWORD THIS Highly active antiretroviral therapy (HAART) can suppress HIV-1 replication in infected patients, but the ability of HIV to persist as an inducible reservoir of latent proviruses \citep{Chun1995, Chun1997,Wong1997,Finzi1999, Davey1999,Hamlyn2012,Stoehr2013} obstructs eradication of the virus and functional cure \citep{Richman2009}. These latent proviruses are long lived \citep{Finzi1999,Siliciano2003} and relatively invisible to the immune system \citep{Finzi1997,Chun1997}.
 
 half life of 2 days and $10^9$ CD4 T cells per day \citep{Ho1995,Wei1995,Perelson1997}
-macrophages? half life 1--4 weeks \citep{Perelson1997} 
-\citep{Finzi1997}
+macrophages? half life 1--4 weeks \citep{Perelson1997,Lambotte2000,Zhu2002} 
+resting CD4 T cells\citep{Finzi1997,Chun1997,Wong1997}
 
+Retrovirus package two copies of RNA in each virion \citep{Bellamy1974,Kung1974,Kung1975}. Interstrand transfer during the reverse transcription step allows recombination \citep{Panganiban1988,Hu1990,Hu1990a}
+[[strand transfer rt refs 3--5 in \citep{Panganiban1988}]]
 
 \section{Integration and latency}
 	cells can produce virus without cell death in vitro \citep{Hoxie1985}
@@ -161,7 +162,9 @@ macrophages? half life 1--4 weeks \citep{Perelson1997}
 
 	Rev balanced with weak 3' splice sites \citep{Kammler2006}.
 
-	Driven by a strong selective pressure for genome compactness \citep{Gelinas1986,Herman1987,Shin2000}, HIV and other lentiviruses subvert host cell alternative splicing pathways to allow tight packing of their genetic information. Through weak splice sites and overlapping reading frames (Figure [[FIGURE HERE]]), the virus manages to produce precise quantities of at least nine proteins and polyproteins from its single transcription start site and less than 10 kb genome \citep{Stoltzfus2009}. 
+Splicing changes due to splice factor changes in macrophages \citep{Dowling2008}
+
+	Driven by a strong selective pressure for genome compactness \citep{Gelinas1986,Herman1987,Shin2000}, HIV and other lentiviruses subvert host cell alternative splicing pathways to allow tight packing of their genetic information. Through weak splice sites and overlapping reading frames (Figure \ref{figHIVGenome}), the virus manages to produce precise quantities of at least nine proteins and polyproteins from its single transcription start site and less than 10 kb genome \citep{Stoltzfus2009}. 
 
 	As such an integral part of the virus life cycle\citep{Kim1989,Pomerantz1990}, alteration of splicing poses a tempting therapeutic target. Inhibition of cellular splicing factors reduces viral reproduction in many genome-wide siRNA screens \citep{Brass2008,Konig2008,Bushman2009} and several members of the spliceosome interact with viral proteins in affinity pulldowns \citep{Jager2012}. Open reading frames in uncharacterized transcripts appear to produce epitopes useful for vaccine development \citep{Bansal2010}. Potential treatments altering viral splicing through small molecule inhibitors \citep{Fukuhara2006,Bakkour2007} and gene therapy \citep{Asparuhova2007,Mandal2010} have restricted viral replication \emph{in vitro}. However without methods to quantify viral splicing or a thorough quantification of splicing under varying conditions, the development of such treatments remains limited. 
 
@@ -201,8 +204,20 @@ TAR-dervied miRNA might change gene expression particularly apoptosis pathway \c
 
 change splicing factors \citep{Zhu2002,Dowling2008}
 
-\section{Repetitive elements}
-\section{RNA detection}
-	First HIV antibody test \citep{Safai1984,Sarngadharan1984} First DNA test \citep{Ou1988}
+%repetitive elements and vaccination
+
+\section{HIV detection}
+%http://www.medscape.com/viewarticle/715166_2
+	Immunoassays provide cheap immediate testing of HIV infection in patients. These tests are based on the enzyme-linked immunosorbent assay, using an enzyme linked to an antibody to produce a detectable signal in the presence of antigen \citep{Yalow1960,Engvall1971,Weemen1971}. %If the labeled antibodies are targeted to human antibodies then a patient's immune response to an antigen can be measured.
+	
+	The isolation of HIV \citep{Barre-Sinoussi1983,Gallo1983,Popovic1984,Levy1984} allowed the production of large quantities of virions. These virions were bound to a substrate, sera from patients added and any patients antibodies sensitive to HIV allowed to bind. Any unbound antibodies were washed away. Then a peroxidase enzyme-labeled antibody targeted to human antibody bound was added, allowed to bind and any unbound antibody were washed away.  and a labelled antibody tha  unbound antibodies and an anti linked to a color changing enzyme then applied patient serum \citep{Safai1984,Sarngadharan1984} [[WORK HERE]]
+	
+	providing binary classification of HIV infection are the only currently available point-of-care tests for HIV. Based on the radioimmunoassay \citep{Yalow1960} but without the dangerous radioactivity, antibodies are bound \citep{} to 
+	In 1961, \citet{}
+
+	An immunoassay using  for 
+
+
+	First HIV antibody test  First DNA test \citep{Ou1988}
 
 \end{document}
