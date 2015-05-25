@@ -4,6 +4,15 @@
 % Acceptable font sizes are 10 to 12 pts
 \usepackage{penn_thesis_style}
 
+
+\newif\ifdraft\drafttrue %change to [[draftfalse when not a draft ]]
+\ifx\draft\defined
+	\ifdraft
+		\overfullrule=15pt
+		\usepackage{lineno}
+		\linenumbers
+	\fi
+\fi
 % Defining variables to be used throughout the document for personalization
 \newcommand{\mylowertitle}{Latency, expression and splicing during infection with HIV} 
 \def\myauthor{Scott Sherrill-Mix} \def\myauthorfull{Scott A. Sherrill-Mix}
@@ -24,14 +33,15 @@
 
 Rick Bushman
 
-Bushman lab Chris wetlab
-Christian Hoffmann
+Christian Hoffmann wet lab
+
 collaborators
-Rithun Mukherjee, Karen Ocwieja, Nirav Malani, Troy Brady, Young Hwang, Brendan Kelly, Kyle Bittinger, Rebecca Custers-Allen, Serena Dollive, Frances Male, Jacque Young, Rohini Sinha, Sam Minot, Aubrey Bailey, Christopher Nobles, Stephanie Grunberg, Vesa Turkki, Anatoly Dryga, Eric Sherman, Greg Peterfreund, Yinghua Wu, Alice Laughlin, Sesh Sundararaman, Alexandra Bryson, Christel Chehoud, Erik Clarke, Arwa Abbas
 
-Friends in the Bushman lab and classmates in GCB. Fan Paul Nate Yichii
+Bushman lab Rithun Mukherjee, Karen Ocwieja, Nirav Malani, Troy Brady, Young Hwang, Brendan Kelly, Kyle Bittinger, Rebecca Custers-Allen, Serena Dollive, Frances Male, Jacque Young, Rohini Sinha, Sam Minot, Aubrey Bailey, Christopher Nobles, Stephanie Grunberg, Vesa Turkki, Anatoly Dryga, Eric Sherman, Greg Peterfreund, Yinghua Wu, Alice Laughlin, Sesh Sundararaman, Alexandra Bryson, Christel Chehoud, Erik Clarke, Arwa Abbas
 
-My committee---Nancy Zhang, Yosephy Barash, Kristen Lynch and Michael Malim---have provided guidance and encouragement. Many faculty of GCB mentoring and teaching. Hannah Chervitz, Tiffany Barlow, Mali Skotheim, Caitlin Greig and Laurie Zimmerman for managing everything and helping manage the layers of bureacracy. Funding from the HIV Immune Networks Team (HINT) consortium P01 AI090935 and NRSA computational genomics training grant T32 HG000046. 
+%Friends in the Bushman lab and classmates in GCB. Fan Paul Nate Yichii
+
+My committee---Nancy Zhang, Yoseph Barash, Kristen Lynch and Michael Malim---have provided guidance and encouragement. Many faculty of GCB mentoring and teaching. Hannah Chervitz, Tiffany Barlow, Mali Skotheim, Caitlin Greig and Laurie Zimmerman for managing everything and helping manage the layers of bureacracy. Funding from the HIV Immune Networks Team (HINT) consortium P01 AI090935 and NRSA computational genomics training grant T32 HG000046. 
 
 Ram Myers and Mike James for great previous mentoring.
 

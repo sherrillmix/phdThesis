@@ -8,7 +8,10 @@
 								% use single spacing for tables, etc.
 \usepackage{calc}
 \usepackage{xcolor} %for reproducible report appendices and font coloring
+
 \usepackage[hidelinks]{hyperref}  %update with title and author in headmatter
+\usepackage{bibentry} %embed citations in text
+\nobibliography* %we're still doing a normal biblio
 
 
 %formatting
@@ -226,12 +229,8 @@
 	\vspace{.8\baselineskip}
 }
 
-\usepackage{bibentry} %embed citations in text
-\nobibliography* %we're still doing a normal biblio
 
 
-%%ONLY FOR DRAFT DELETE THIS [[delete this]]
-\overfullrule=15pt
 
 %boxes around figures
 %\usepackage{float}
