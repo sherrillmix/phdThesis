@@ -102,7 +102,7 @@
 \usepackage{parskip} % To allow for better management of the Dutch paragraph style
 \usepackage{url} % To allow for better typing of the url in the Creative Commons part of the copyright
 \usepackage[sort,compress,super,comma]{natbib} % allows the author-date citation system
-\definecolor{citeColor}{gray}{0.3}
+\definecolor{citeColor}{gray}{0.4}
 \renewcommand{\citenumfont}[1]{\textcolor{citeColor}{\scriptsize{#1}}}
 %\bibpunct{(}{)}{;}{a}{,}{,} % options for natbib to yield the citation style I like
 \bibpunct{}{}{\textcolor{citeColor}{\scriptsize{,}}}{s}{,}{,} % options for natbib
@@ -180,6 +180,7 @@
 	\titleformat{\chapter}[hang]{\Large\center\bfseries}{\thechapter}{0 pt}{}
 	\titlespacing*{\chapter}{0pt}{-25 pt}{6 pt} % The key value here is the -25 pts, I got to it by old fashioned measuring with a ruler....
 	\singlespacing
+	\phantomsection
 	\addcontentsline{toc}{chapter}{\bibname}
 }{}
 
