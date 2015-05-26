@@ -166,20 +166,23 @@
 \singlespacing
 
 
-\tableofcontents
+\phantomsection %gets the hyperref numbering right
 \addcontentsline{toc}{chapter}{TABLE OF CONTENTS}
+\tableofcontents
 
 % LIST OF TABLES
 
 \clearpage
-\listoftables
+\phantomsection %gets the hyperref numbering right
 \addcontentsline{toc}{chapter}{LIST OF TABLES}
+\listoftables
 
 % LIST OF ILUSTRATIONS
 
 \clearpage
-\listoffigures
+\phantomsection %gets the hyperref numbering right
 \addcontentsline{toc}{chapter}{LIST OF ILLUSTRATIONS}
+\listoffigures
 \microtypesetup{protrusion=true} % enables protrusion
 \doublespacing
 

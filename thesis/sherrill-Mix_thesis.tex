@@ -10,6 +10,9 @@
 	\ifdraft
 		\overfullrule=15pt
 		\usepackage{lineno}
+		%\modulolinenumbers[5]
+		\definecolor{lineCol}{gray}{.7}
+		\renewcommand\linenumberfont{\color{lineCol}\normalfont\tiny\sffamily}
 		\linenumbers
 	\fi
 \fi
@@ -110,6 +113,12 @@ Xiaofen and Otto
 \subfile{conclusion/conclusion}
 
 \end{mainMatter}
+
+\ifx\draft\defined
+	\ifdraft
+		\nolinenumbers
+	\fi
+\fi
 
 %% APPENDICES (OPTIONAL)
 \begin{appendixf}
