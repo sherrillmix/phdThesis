@@ -122,6 +122,21 @@
 %\usepackage{verbatim}
 \usepackage{subfiles} % To be better able to manage large projects by compiling the separate files included in the final document
 
+%take care of calculations on user settings
+\AtBeginDocument{
+	%do some calculation based on user inputs
+	\newcommand{\mytitle}{\expandafter\MakeUppercase\expandafter{\mylowertitle}} % Make sure this is in all caps 
+	\newlength{\superlen}   % a "scratch" length
+	\settowidth{\superlen}{\mysupervisorname, \mysupervisortitle} % Width of signature line for supervisor
+	\newlength{\chairlen}   % a "scratch" length
+	\settowidth{\chairlen}{\gradchairname, \gradchairtitle} % Width of signature line for supervisor
+	\newlength{\maxlen}
+	\setlength{\maxlen}{\maxof{\superlen}{\chairlen}}
+
+	%set pdf title and author
+	\hypersetup{pdftitle={\mylowertitle},pdfauthor={\myauthor}}
+}
+
 
 
 
@@ -129,6 +144,8 @@
 \newenvironment{preliminary}{
 	\titleformat{\chapter}[hang]{\large\center}{\thechapter}{0 pt}{}
 	\titlespacing*{\chapter}{0pt}{-33 pt}{6 pt} % The key value here is the -33 pts, I got to it by old fashioned measuring with a ruler....
+	\pagestyle{plain}
+	\pagenumbering{roman}
 }{}
 
 %% MAIN TEXT formatting
@@ -232,7 +249,6 @@
 
 
 
-
 %boxes around figures
 %\usepackage{float}
 %\usepackage[framemethod=tikz]{mdframed}
@@ -252,5 +268,198 @@
 %\makeatother
 %\floatstyle{boxed} 
 %\restylefloat{figure}
+
+\newcommand{\makeTitlePage}{
+	% TITLE PAGE
+	\begin{titlepage}
+		\thispagestyle{empty} % No page numbers on title page, as per Manual page 8
+		\begin{center}
+
+		\onehalfspacing
+
+		\mytitle
+
+		\myauthor
+
+		A DISSERTATION
+
+		in 
+
+		\mydepartment 
+
+		%For the Graduate Group in Managerial Science and Applied Economics 
+
+		Presented to the Faculties of the University of Pennsylvania
+
+		in 
+
+		Partial Fulfillment of the Requirements for the
+
+		Degree of Doctor of Philosophy
+
+		\myyear
+
+		\end{center}
+
+		\vfill % Here to make sure the page is filled
+
+		\begin{flushleft}
+
+		Supervisor of Dissertation:\\[\signatures] % Space for signature, you can fiddle with this as you like
+
+		\setlength\parindent{2em}
+		\renewcommand{\tabcolsep}{0 pt}
+		\begin{tabularx}{\maxlen}{l}
+		\toprule
+		\mysupervisorname, \mysupervisortitle\\ %Space between advisor and graduate chair, you can fiddle with this as you like
+		\end{tabularx}
+		\setlength\parindent{0em}
+
+		Graduate Group Chairperson:\\[\signatures] % Space for signature, you can fiddle with this as you likee
+
+		\setlength\parindent{2em}
+		\begin{tabularx}{\maxlen}{l}
+		\toprule
+		\gradchairname, \gradchairtitle\\ %Space between advisor and graduate chair, you can fiddle with this as you like
+		\end{tabularx}
+		\setlength\parindent{0em}
+		\singlespacing
+
+		Dissertation Committee: % No signature necessary
+
+		\setlength\parindent{2em}
+		\mycommittee
+		\setlength\parindent{0em}
+
+
+		\end{flushleft}
+	\end{titlepage}
+	%title page should be counted
+	\addtocounter{page}{1}
+}
+
+
+\newcommand{\makeCopyright}{
+	% COPYRIGHT NOTICE (optional)
+
+	\doublespacing
+
+	\thispagestyle{empty} % No page number as per Manual, p. 11
+
+	\vspace*{\fill}
+	\begin{flushleft}
+		\mytitle
+
+		 \copyright \space COPYRIGHT
+		 
+		\myyear
+
+		\myauthorfull\\[24 pt] % If traditional copyright then delete everything below here, but keep \end{flushleft}
+
+		This work is licensed under the \\
+		Creative Commons Attribution \\
+		NonCommercial-ShareAlike 3.0 \\
+		License
+
+		To view a copy of this license, visit
+
+		\url{http://creativecommons.org/licenses/by-nc-sa/3.0/}
+	\end{flushleft}
+	\pagebreak 
+}
+
+\newcommand{\makeDedication}{
+	\begin{center}
+	\vspace*{\fill}
+	\textit{\mydedication}
+	\vspace*{\fill}
+	\end{center}
+	\clearpage
+}
+
+
+\newcommand{\makeAcknowledgements}{
+	\chapter*{ACKNOWLEDGEMENTS}
+	%\addcontentsline{toc}{chapter}{ACKNOWLEDGEMENTS} % This is to include this section in the Table of Contents
+	\myacknowledgements
+	\clearpage
+}
+
+
+\newcommand{\makeAbstract}{
+	\chapter*{ABSTRACT}
+	\addcontentsline{toc}{chapter}{ABSTRACT} % This is to include this section in the Table of Contents
+	\begin{center}
+	\mytitle
+
+	\myauthor
+
+	\mysupervisorname
+
+	\end{center}
+
+	\myabstract
+	\clearpage
+}
+
+
+\newcommand{\makeTablesOfContents}{
+	% TABLE OF CONTENTS
+	\microtypesetup{protrusion=false} % disables protrusion locally in the document
+	\singlespacing
+
+
+	\phantomsection %gets the hyperref numbering right
+	\addcontentsline{toc}{chapter}{TABLE OF CONTENTS}
+	\tableofcontents
+
+	% LIST OF TABLES
+
+	\clearpage
+	\phantomsection %gets the hyperref numbering right
+	\addcontentsline{toc}{chapter}{LIST OF TABLES}
+	\listoftables
+	\clearpage
+
+	% LIST OF ILUSTRATIONS
+
+	\phantomsection %gets the hyperref numbering right
+	\addcontentsline{toc}{chapter}{LIST OF ILLUSTRATIONS}
+	\listoffigures
+	\microtypesetup{protrusion=true} % enables protrusion
+	\doublespacing
+}
+
+\newcommand{\makePreliminary}{
+	\begin{preliminary}
+		\makeTitlePage{}
+
+		%copyright should be page ii
+		\makeCopyright{}
+
+		% DEDICATION (OPTIONAL)
+		\makeDedication{}
+
+		% ACKNOWLEDGEMENT (OPTIONAL)
+		\makeAcknowledgements{}
+
+		% ABSTRACT
+		\makeAbstract{}
+
+
+		%TABLES OF CONTENTS TABLES AND FIGURES
+		\makeTablesOfContents{}
+
+		% PREFACE (OPTIONAL)
+
+		%\clearpage
+		%\chapter*{PREFACE (optional)}
+		%\addcontentsline{toc}{chapter}{PREFACE} % This is to include this section in the Table of Contents
+
+	\end{preliminary}
+}
+
+
+
 
 
