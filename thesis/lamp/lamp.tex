@@ -37,11 +37,11 @@
 
 	\subsection{Assays}
 
-	RT-LAMP reaction mixtures (15 \uL{}) contained 0.2 \uM{} each of primers F3 and B3 (if a primer set used multiple B3 primers, mixture contained 0.2 \uM{} of each); 1.6 \uM{} each of FIP and BIP primers (if a primer set had multiple FIP primes, reaction mixture contained 0.8 \uM{} of each FIP primer); and 0.8 \uM{} each of LoopF and LoopB primers; 7.5 \uL{} OptiGene Isothermal Mastermix ISO-100nd (Optigene, UK), ROX reference dye (0.15 \uL{} from a 50X stock), EvaGreen dye (0.4 \uL{} from a 20X stock; Biotium, Hayward, CA); HIV RNA in 4.7 \uL{}; AMV reverse transcriptase (10U/\uL{}) 0.1 \uL{} and water to 15 \uL{} In most cases where two primer sets were combined, the total primer concentration within the reaction was doubled such that the above individual primer molarities were maintained. For the mixture ACeIN-26+F-IN (S2 Table, line 46), the total primer concentration was not doubled--the F-IN primer set comprised 25\% of the total primer concentration, and the ACeIN-26 primer set comprised 75\% of the total primer concentration with the ratios of primers listed above preserved. This mixture was combined 1:1 with the ACe-PR primer set (S2 Table, line 47) such that total primer concentration in the final mixture was doubled.
+	RT-LAMP reaction mixtures (15 \uL{}) contained 0.2 \uM{} each of primers F3 and B3 (if a primer set used multiple B3 primers, mixture contained 0.2 \uM{} of each); 1.6 \uM{} each of FIP and BIP primers (if a primer set had multiple FIP primes, reaction mixture contained 0.8 \uM{} of each FIP primer); and 0.8 \uM{} each of LoopF and LoopB primers; 7.5 \uL{} OptiGene Isothermal Mastermix ISO-100nd (Optigene, UK), ROX reference dye (0.15 \uL{} from a 50X stock), EvaGreen dye (0.4 \uL{} from a 20X stock; Biotium, Hayward, CA); HIV RNA in 4.7 \uL{}; AMV reverse transcriptase (10U/\uL{}) 0.1 \uL{} and water to 15 \uL{}. In most cases where two primer sets were combined, the total primer concentration within the reaction was doubled such that the above individual primer molarities were maintained. For the mixture ACeIN-26+F-IN (S2 Table, line 46), the total primer concentration was not doubled--the F-IN primer set comprised 25\% of the total primer concentration, and the ACeIN-26 primer set comprised 75\% of the total primer concentration with the ratios of primers listed above preserved. This mixture was combined 1:1 with the ACe-PR primer set (S2 Table, line 47) such that total primer concentration in the final mixture was doubled.
 
 	Amplification was measured using the 7500-Fast Real Time PCR system from Applied Biosystems with the following settings: 1 minute at 62\degree{}C; 60 cycles of 30 seconds at 62\degree{}C and 30 seconds at 63\degree{}C. Data was collected every minute. Product structure was assessed using dissociation curves which showed denaturation at 83\degree{}C. Products from selected amplification reactions were analyzed by agarose gel electrophoresis and showed a ladder of low molecular weight products (data not shown).
 
-	Product synthesis was quantified as the cycle of threshold for 10\% amplification. Z-factors \citep{Zhang1999} were calculated from tests of 24 replicates using the ACeIN26 primer set in assays with viral RNA of each subtype. No detection after 60 min was given a value of 61 min in the Z-factor calculation.
+	Product synthesis was quantified as the cycle of threshold for 10\% amplification. Z-factors \citep{Zhang1999} were calculated from tests of 24 replicates using the ACeIN-26 primer set in assays with viral RNA of each subtype. No detection after 60 min was given a value of 61 min in the Z-factor calculation.
 
 
 \section{Results}
@@ -81,7 +81,30 @@
 
 			In a second effort to increase primer affinities, we substituted locked nucleic acids (LNAs) for selected bases that were particularly highly conserved among subtypes (Figure \ref{figPrimers}, ACeIN-30, -31, -32, -33, and-34). Some improvement was shown over the non-LNA containing bases. However, the ACeIN-26 primer set was as effective as or better than any LNA containing primer sets.
 
-			In further tests, the ACeIN-26, -28 and-30 primers were tested combined with the ACePR primer set (a slightly modified version of the B-PR primer set, S2 Table, row 2, designed to accommodate a wider selection of HIV-1 subtypes) but no improvement was seen and efficiency may even have fallen for some subtypes. We also designed a primer set that matched exactly to the targeted sequences found in the problematic subtype F, and mixed this set with the ACeIN-26 primers. However, no improvement was seen (Figure \ref{figPrimers}, mixtures with F-IN set). Mixing the ACeIN-26 primers with both the ACePR and F-specific primers did yield effective primer sets (Figure \ref{figPrimers}, ACeIN26+F-IN and ACeIN26+F-IN+ACePR). However, amplification efficiency was not greatly improved over the ACeIN-26 primer set, so we proceeded with the simpler ACeIN-26 primer set (Figure \ref{figConsensus}B) in further studies.
+			In further tests, the ACeIN-26, -28 and-30 primers were tested combined with the ACePR primer set (a slightly modified version of the B-PR primer set, S2 Table, row 2, designed to accommodate a wider selection of HIV-1 subtypes) but no improvement was seen and efficiency may even have fallen for some subtypes. We also designed a primer set that matched exactly to the targeted sequences found in the problematic subtype F, and mixed this set with the ACeIN-26 primers. However, no improvement was seen (Figure \ref{figPrimers}, mixtures with F-IN set). Mixing the ACeIN-26 primers with both the ACePR and F-specific primers did yield effective primer sets (Figure \ref{figPrimers}, ACeIN-26+F-IN and ACeIN-26+F-IN+ACePR). However, amplification efficiency was not greatly improved over the ACeIN-26 primer set, so we proceeded with the simpler ACeIN-26 primer set (Figure \ref{figConsensus}B and Table \ref{primerTable}) in further studies.
+
+	\begin{table*}
+		\resizebox{\columnwidth}{!}{
+		\begin{tabular}{|l|l|}
+			\hline
+			Primer name & Sequence                                      \\ 
+			\hline
+			ACeIN-F3\_c  & CCTATTTGGAAAGGACCAGC                          \\ 
+			ACeIN-B3a   & TCTTTGAAAYATACATATGRTG                        \\ 
+			ACeIN-B3b   & AACATACATATGRTGYTTTACTA                       \\ 
+			ACeIN-FIPe  & CTTGGTACTACYTTTATGTCACTAAARCTACTCTGGAAAGGTG   \\ 
+			ACeIN-FIPf  & CTTGGCACTACYTTTATGTCACTAAARCTYCTCTGGAAAGGTG   \\ 
+			ACeIN-BIP   & GGAYTATGGAAAACAGATGGCAGCCATGTTCTAATCYTCATCCTG \\ 
+			ACeIN-LF    & TCTTGTATTACTACTGCCCCTT                        \\ 
+			ACeIN-LB    & GTGATGATTGTGTGGCARGTAG                        \\ 
+			\hline
+		\end{tabular}
+		}
+		\caption[Primer set ACeIN-26]{The primers from the ACeIN-26 primer set selected for further study}
+		\label{tabMetaSamples}
+	\end{table*}
+
+
 
 			\subsection{Performance of the optimized RT-LAMP assay}
 			The ACeIN-26 RT-LAMP primer set was next tested to determine the minimum concentration of RNA detectable under the reaction conditions studied (Figure \ref{figClades}). RNA template amounts were titrated and time to detection quantified. Tests showed detection after less than 20 min of incubation for 50 copies of subtypes A or B, detection after less than 30 min for 5000 copies for C, D, and G, and detection after less than 20 min for 50,000 copies for F.
