@@ -87,16 +87,14 @@ notFitColumns <- c("id", "chr", "pos", "strand", "sample", "isLatent")\end{lstli
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 samples <- unique(as.character(integrationData$sample))\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-sampleMatrix <- do.call(cbind, lapply(samples, function(x) integrationData$sample == 
-    x))\end{lstlisting}
+sampleMatrix <- do.call(cbind, lapply(samples, function(x) integrationData$sample == x))\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 colnames(sampleMatrix) <- gsub(" ", "_", samples)\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 \end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 interact <- function(predMatrix, columns, addNames = NULL) {
-    out <- do.call(cbind, lapply(1:ncol(columns), function(x) predMatrix * 
-        columns[, x]))
+    out <- do.call(cbind, lapply(1:ncol(columns), function(x) predMatrix * columns[, x]))
     if (!is.null(addNames)) {
         if (length(addNames) != ncol(columns)) {
             stop(simpleError("Names not same length as columns"))
@@ -109,8 +107,7 @@ interact <- function(predMatrix, columns, addNames = NULL) {
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 \end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-fitData <- as.matrix(integrationData[, !colnames(integrationData) %in% 
-    notFitColumns])\end{lstlisting}
+fitData <- as.matrix(integrationData[, !colnames(integrationData) %in% notFitColumns])\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 fitData2 <- as.matrix(cbind(interact(fitData, sampleMatrix, colnames(sampleMatrix)), 
     fitData, sampleMatrix))\end{lstlisting}
@@ -126,12 +123,9 @@ penalties <- rep(1, ncol(fitData2))\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 penalties[ncol(fitData2) - (ncol(sampleMatrix):1) + 1] <- 0\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-lassoFit <- cv.glmnet(fitData2, integrationData$isLatent, family = "binomial", 
-    type.measure = "class", nfolds = 3, penalty.factor = penalties)\end{lstlisting}
+lassoFit <- cv.glmnet(fitData2, integrationData$isLatent, family = "binomial", type.measure = "class", nfolds = 3, penalty.factor = penalties)\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-seperateFits <- lapply(samples, function(x) cv.glmnet(fitData[integrationData$sample == 
-    x, ], integrationData$isLatent[integrationData$sample == 
-    x], family = "binomial", type.measure = "class", nfolds = 3))\end{lstlisting}
+seperateFits <- lapply(samples, function(x) cv.glmnet(fitData[integrationData$sample == x, ], integrationData$isLatent[integrationData$sample == x], family = "binomial", type.measure = "class", nfolds = 3))\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 names(seperateFits) <- samples\end{lstlisting}
 \end{kframe}
@@ -318,9 +312,7 @@ We used a Fisher's exact test to check if silent/inducible proviruses were enric
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 selector <- integrationData$inGene == 1\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-strandTable <- with(integrationData[selector, ], table(ifelse(isLatent, 
-    "Silent/Inducible", "Active"), ifelse(inGeneSameStrand == 
-    1, "Same", "Diff"), sample))\end{lstlisting}
+strandTable <- with(integrationData[selector, ], table(ifelse(isLatent, "Silent/Inducible", "Active"), ifelse(inGeneSameStrand == 1, "Same", "Diff"), sample))\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 apply(strandTable, 3, fisher.test)\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
@@ -401,8 +393,7 @@ To reduce correlation between acetylation marks, we generated the first ten prin
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-acetyl <- integrationData[, !grepl("logDist", colnames(integrationData)) & 
-    grepl("ac", colnames(integrationData))]\end{lstlisting}
+acetyl <- integrationData[, !grepl("logDist", colnames(integrationData)) & grepl("ac", colnames(integrationData))]\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 acetylPCA <- princomp(acetyl)\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
@@ -552,11 +543,9 @@ We used a two-sample t-test to investigate whether there was a significant diffe
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-geneDistData <- integrationData[!integrationData$inGene, c("isLatent", 
-    "logDist_nearest", "sample")]\end{lstlisting}
+geneDistData <- integrationData[!integrationData$inGene, c("isLatent", "logDist_nearest", "sample")]\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-by(geneDistData, geneDistData$sample, function(x) t.test(logDist_nearest ~ 
-    isLatent, data = x))\end{lstlisting}
+by(geneDistData, geneDistData$sample, function(x) t.test(logDist_nearest ~ isLatent, data = x))\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 ## geneDistData$sample: Active
 ## 
@@ -665,8 +654,7 @@ Many CpG islands are found near genes. To account for this relationship, we used
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-anova(with(integrationData, glm(isLatent ~ I(logDist_nearest == 
-    0) + logDist_cpg, family = "binomial")), test = "Chisq")\end{lstlisting}
+anova(with(integrationData, glm(isLatent ~ I(logDist_nearest == 0) + logDist_cpg, family = "binomial")), test = "Chisq")\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 ## Analysis of Deviance Table
 ## 
@@ -691,10 +679,7 @@ anova(with(integrationData, glm(isLatent ~ I(logDist_nearest ==
 \end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 sapply(unique(integrationData$sample), function(x) {
-    p.adjust(anova(with(integrationData[integrationData$sample == 
-        x, ], glm(isLatent ~ I(logDist_nearest == 0) + logDist_cpg, 
-        family = "binomial")), test = "Chisq")["logDist_cpg", 
-        "Pr(>Chi)"], method = "bonferroni", n = 5)
+    p.adjust(anova(with(integrationData[integrationData$sample == x, ], glm(isLatent ~ I(logDist_nearest == 0) + logDist_cpg, family = "binomial")), test = "Chisq")["logDist_cpg", "Pr(>Chi)"], method = "bonferroni", n = 5)
 })\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 ##           Active   Central Memory           Jurkat 
@@ -711,8 +696,7 @@ When analyzing repetitive elements, we treated each read as an independent obser
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
-repeats <- read.csv("AdditionalFile3.csv.gz", check.names = FALSE, 
-    stringsAsFactors = FALSE)\end{lstlisting}
+repeats <- read.csv("AdditionalFile3.csv.gz", check.names = FALSE, stringsAsFactors = FALSE)\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 nrow(repeats)\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
@@ -746,8 +730,7 @@ testRepeats <- function(x, repeats) {
         selector <- repeats$sample == thisSample
         repLatent <- rep(repeats$isLatent[selector], repeats$count[selector])
         repRepeat <- rep(x[selector], repeats$count[selector])
-        fisher.test(table(c(dummyX, repLatent), c(dummyY, repRepeat)) - 
-            1)$p.value
+        fisher.test(table(c(dummyX, repLatent), c(dummyY, repRepeat)) - 1)$p.value
     }, repeats)
 }\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
@@ -789,8 +772,7 @@ for (chr in unique(integrationData$chr)) {
     chrSelector <- integrationData$chr == chr
     neighborPairs <- data.frame(id1 = rep(ids[chrSelector], sum(chrSelector)), 
         id2 = rep(ids[chrSelector], each = sum(chrSelector)))
-    neighborPairs <- neighborPairs[neighborPairs$id1 < neighborPairs$id2, 
-        ]
+    neighborPairs <- neighborPairs[neighborPairs$id1 < neighborPairs$id2, ]
     allNeighbors <- rbind(allNeighbors, neighborPairs)
 }\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
@@ -821,8 +803,7 @@ pairings <- do.call(rbind, lapply(dists, function(x, allNeighbors) {
     outSelector <- allNeighbors$dist <= x & allNeighbors$sample1 != 
         allNeighbors$sample2
     allSelector <- allNeighbors$dist <= x
-    out <- data.frame(dist = x, observedIn = sum(allNeighbors[inSelector, 
-        "latent1"] == allNeighbors[inSelector, "latent2"]), observedOut = sum(allNeighbors[outSelector, 
+    out <- data.frame(dist = x, observedIn = sum(allNeighbors[inSelector, "latent1"] == allNeighbors[inSelector, "latent2"]), observedOut = sum(allNeighbors[outSelector, 
         "latent1"] == allNeighbors[outSelector, "latent2"]), 
         observedAll = sum(allNeighbors[allSelector, "latent1"] == 
             allNeighbors[allSelector, "latent2"]), totalIn = sum(inSelector), 
@@ -867,8 +848,7 @@ To look for more matches than expected by random pairing between neighboring pro
 combinations <- c(All = "All", `Between sample` = "Out", `Within sample` = "In")\end{lstlisting}
 \begin{lstlisting}[basicstyle=\ttfamily,breaklines=true]
 lapply(combinations, function(x, pairing) {
-    vars <- sprintf(c("observed%s", "expected%s", "total%s"), 
-        x)
+    vars <- sprintf(c("observed%s", "expected%s", "total%s"), x)
     expectedProb <- pairing[, vars[2]]/pairing[, vars[3]]
     prop.test(pairing[, vars[1]], pairing[, vars[3]], p = expectedProb)
 }, pairings["100", ])\end{lstlisting}

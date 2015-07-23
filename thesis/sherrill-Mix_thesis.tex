@@ -5,7 +5,7 @@
 \usepackage{penn_thesis_style}
 
 
-\newif\ifdraft\drafttrue %change to [[draftfalse when not a draft ]]
+\newif\ifdraft\draftfalse %change to draftfalse when not a draft and drafttrue when a draft
 \ifx\draft\defined
 	\ifdraft
 		\overfullrule=15pt
@@ -32,26 +32,23 @@
 	Michael Malim, Ph.D., Professor of Infectious Diseases, King's College London
 }
 \def\mydedication{Dedicated to William Maurer, Gayle Maurer \& Michele Sherrill-Mix}
-\def\myacknowledgements{I would like to thank 
+\def\myacknowledgements{
+	I would like to thank Rick Bushman for being a great advisor and mentor.  My committee---Nancy Zhang, Yoseph Barash, Kristen Lynch and Michael Malim---also provided guidance and encouragement.  I am also grateful to many of the faculty of GCB for teaching and advice and my fellow GCB students---especially Fan Li, Paul Ryvkin, Nathan Berkowitz, Hannah Dueck, Yih-Chii Hwang and Sarah Middleton---for camaraderie and class and prelim prep. My previous advisors Ram Myers and Mike James provided a foundation for this research.  I would also like to thank Hannah Chervitz, Tiffany Barlow, Mali Skotheim, Caitlin Greig and Laurie Zimmerman for organizing and managing everything.
 
-Rick Bushman
+	The Bushman lab was like a second home with labmates that were both good friends and good colleagues. My fellow (or former) GCB students---Christel Chehoud, Erik Clarke, Serena Dolliva and Rithun Mukherjee---provided genomic and computational biological conversations and commiserations. Christian Hoffman tutored my wet bench skills. I had productive collaborations with Kyle Bittinger, Alexandra Bryson, Rebecca Custers-Allen, Stephanie Grunberg, Brendan Kelly, Nirav Malani, Karen Ocwieja, Greg Peterfreund, Rohini Sinha, Sesh Sundararamanand Young Hwang. Aubrey Bailey kept the servers humming and the office cheerful. Arwa Abbas, Alice Laughlin, Frances Male and Jacque Young brought the lab together. Troy Brady, Emily Charlson, Anatoly Dryga, Sam Minot, Christopher Nobles, Eric Sherman, Vesa Turkki and Yinghua Wu were great to work with.
 
-Christian Hoffmann wet lab
+	%fellow or former GCB
+	%Christel Chehoud, Erik Clarke, Serena Dolliva, Rithun Mukherjee
+	%wetlab
+	%Christian Hoffmann
+	%collaborators
+	%Brendan Kelly, Rebecca Custers-Allen, Sesh Sundararaman, Nirav Malani, Kyle Bittinger, Karen Ocwieja, Alexandra Bryson, Rohini Sinha, Greg Peterfreund, Stephanie Grunberg, Young Hwang
+	% computational and officemate
+	%Aubrey Bailey
 
-collaborators
+	The HIV Immune Networks Team (HINT) consortium P01 AI090935 and NRSA computational genomics training grant T32 HG000046 provided funding for this research.
 
-Bushman lab Rithun Mukherjee, Karen Ocwieja, Nirav Malani, Troy Brady, Young Hwang, Brendan Kelly, Kyle Bittinger, Rebecca Custers-Allen, Serena Dollive, Frances Male, Jacque Young, Rohini Sinha, Sam Minot, Aubrey Bailey, Christopher Nobles, Stephanie Grunberg, Vesa Turkki, Anatoly Dryga, Eric Sherman, Greg Peterfreund, Yinghua Wu, Alice Laughlin, Sesh Sundararaman, Alexandra Bryson, Christel Chehoud, Erik Clarke, Arwa Abbas
-
-%Friends in the Bushman lab and classmates in GCB. Fan Paul Nate Yichii
-
-My committee---Nancy Zhang, Yoseph Barash, Kristen Lynch and Michael Malim---have provided guidance and encouragement. Many faculty of GCB mentoring and teaching. Hannah Chervitz, Tiffany Barlow, Mali Skotheim, Caitlin Greig and Laurie Zimmerman for managing everything and helping manage the layers of bureacracy. Funding from the HIV Immune Networks Team (HINT) consortium P01 AI090935 and NRSA computational genomics training grant T32 HG000046. 
-
-Ram Myers and Mike James for great previous mentoring.
-
-Xiaofen and Otto
-
-\ldots
-
+	Finally, my wife and son provided support and inspiration.
 }
 \def\myabstract{ %%ABSTRACT_START%%
 	Over 35 million people are living with human immunodeficiency virus (HIV-1). The mechanisms causing integrated provirus to become latent, the diversity of spliced viral transcripts and the cellular response to infection are not fully characterized and hinder the eradication of HIV-1. We applied high-throughput sequencing to investigate the effects of host chromatin on proviral latency and variation of expression and splicing in both the host and virus during infection.
