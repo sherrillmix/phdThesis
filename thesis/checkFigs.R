@@ -1,10 +1,10 @@
 ##File name: checkFigs.R
 ##Creation date: Jun 26, 2015
-##Last modified: Mon Jun 29, 2015  12:00PM
+##Last modified: Wed Jul 22, 2015  11:00PM
 ##Created by: scott
 ##Summary: List out figures to check all subfigures refd
 
-texFiles<-sapply(chaps,list.files,'*.tex',full.names=TRUE)
+#texFiles<-sapply(chaps,list.files,'*.tex',full.names=TRUE)
 texFiles<-list.files('.','*.tex$',recursive=TRUE,full.names=TRUE)
 tex<-lapply(texFiles,readLines)
 if(any(grep('Figure [0-9]',unlist(tex))))stop(simpleError('Directly numbered figure found'))
